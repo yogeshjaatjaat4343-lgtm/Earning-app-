@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Earning App</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial;
+      background: radial-gradient(circle, #0f172a, #000);
+      color: white;
+      text-align: center;
+    }
+
+    .container {
+      padding: 20px;
+    }
+
+    .card {
+      background: rgba(255,255,255,0.05);
+      padding: 20px;
+      margin: 20px;
+      border-radius: 15px;
+      box-shadow: 0 0 20px rgba(0,255,200,0.2);
+    }
+
+    button {
+      padding: 12px 20px;
+      margin: 10px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      background: linear-gradient(45deg, #00ffcc, #0077ff);
+      color: white;
+      font-weight: bold;
+    }
+
+    button:hover {
+      transform: scale(1.05);
+    }
+
+    .title {
+      font-size: 28px;
+      margin-top: 20px;
+      color: #00ffcc;
+    }
+
+    .coins {
+      font-size: 24px;
+      margin: 10px;
+      color: gold;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <div class="title">🔥 EARNING APP 🔥</div>
+
+  <div class="card">
+    <h2>User Login</h2>
+    <button onclick="login()">Login with Google</button>
+  </div>
+
+  <div class="card">
+    <h2>Your Wallet</h2>
+    <div class="coins">Coins: <span id="coins">0</span></div>
+  </div>
+
+  <div class="card">
+    <h2>Withdraw</h2>
+    <button onclick="withdraw()">Request Withdrawal</button>
+  </div>
+
+</div>
+
+<!-- Firebase Script -->
+<script type="module">
+
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getAuth, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+  import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+  // 🔥 यहाँ तुम्हारा Firebase Config आएगा
+  const firebaseConfig = {
+    apiKey: "AIzaSyCl2Zut4rcT11Z_sTOUcY6-62AzxaCbAp4",
+    authDomain: "earningapp-f5159.firebaseapp.com",
+    projectId: "earningapp-f5159",
+    storageBucket: "earningapp-f5159.firebasestorage.app",
+    messagingSenderId: "12919105584",
+    appId: "1:12919105584:web:1e2602778c926d426625f5"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+  const provider = new GoogleAuthProvider();
+
+  let currentUser = null;
+
+  // 🔐 LOGIN
+  window.login = async function () {
+    const result = await signInWithPopup(auth, provider);
+    currentUser = result.user;
+
+    alert("Login Success: " + currentUser.email);
+
+    // user save in Firestore
+    await setDoc(doc(db, "users", currentUser.uid), {
+      email: currentUser.email,
+      coins: 0
+    });
+
+    loadUser();
+  }
+
+  // 📊 LOAD USER DATA
+  async function loadUser() {
+    const ref = doc(db, "users", currentUser.uid);
+    const snap = await getDoc(ref);
+
+    if (snap.exists()) {
+      document.getElementById("coins").innerText = snap.data().coins;
+    }
+  }
+
+  // 💸 WITHDRAW REQUEST
+  window.withdraw = async function () {
+    if (!currentUser) {
+      alert("Login first!");
+      return;
+    }
+
+    await setDoc(doc(db, "withdrawals", currentUser.uid), {
+      uid: currentUser.uid,
+      status: "pending",
+      amount: 100
+    });
+
+    alert("Withdrawal request sent (WhatsApp process manual)");
+  }
+
+</script>
+
+</body>
+</html>
