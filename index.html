@@ -1,147 +1,347 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-  <title>Earning App</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial;
-      background: radial-gradient(circle, #0f172a, #000);
-      color: white;
-      text-align: center;
-    }
 
-    .container {
-      padding: 20px;
-    }
+<title>EARNING APP</title>
 
-    .card {
-      background: rgba(255,255,255,0.05);
-      padding: 20px;
-      margin: 20px;
-      border-radius: 15px;
-      box-shadow: 0 0 20px rgba(0,255,200,0.2);
-    }
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
-    button {
-      padding: 12px 20px;
-      margin: 10px;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      background: linear-gradient(45deg, #00ffcc, #0077ff);
-      color: white;
-      font-weight: bold;
-    }
+<style>
 
-    button:hover {
-      transform: scale(1.05);
-    }
+body{
+margin:0;
+font-family:Arial,sans-serif;
+background:#0f172a;
+color:white;
+text-align:center;
+}
 
-    .title {
-      font-size: 28px;
-      margin-top: 20px;
-      color: #00ffcc;
-    }
+.container{
+padding:20px;
+}
 
-    .coins {
-      font-size: 24px;
-      margin: 10px;
-      color: gold;
-    }
-  </style>
+.card{
+background:rgba(255,255,255,0.08);
+margin:20px;
+padding:20px;
+border-radius:18px;
+}
+
+.title{
+font-size:30px;
+color:#00ffcc;
+margin-bottom:20px;
+}
+
+button{
+
+width:90%;
+
+max-width:300px;
+
+padding:15px;
+
+margin:10px;
+
+border:none;
+
+border-radius:12px;
+
+font-size:16px;
+
+font-weight:bold;
+
+cursor:pointer;
+
+background:linear-gradient(45deg,#00ffcc,#0077ff);
+
+color:white;
+
+}
+
+.coins{
+
+font-size:25px;
+
+color:gold;
+
+}
+
+.historyItem{
+
+padding:10px;
+
+border-bottom:1px solid #444;
+
+}
+
+</style>
+
 </head>
 
 <body>
 
-<div class="container">
+<!-- HOME PAGE -->
 
-  <div class="title">🔥 EARNING APP 🔥</div>
+<div id="homePage" class="container">
 
-  <div class="card">
-    <h2>User Login</h2>
-    <button onclick="login()">Login with Google</button>
-  </div>
+<div class="title">
 
-  <div class="card">
-    <h2>Your Wallet</h2>
-    <div class="coins">Coins: <span id="coins">0</span></div>
-  </div>
-
-  <div class="card">
-    <h2>Withdraw</h2>
-    <button onclick="withdraw()">Request Withdrawal</button>
-  </div>
+🔥 EARNING APP 🔥
 
 </div>
 
-<!-- Firebase Script -->
-<script type="module">
+<!-- LOGIN -->
 
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-  import { getAuth, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-  import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+<div class="card">
 
-  // 🔥 यहाँ तुम्हारा Firebase Config आएगा
-  const firebaseConfig = {
-    apiKey: "AIzaSyCl2Zut4rcT11Z_sTOUcY6-62AzxaCbAp4",
-    authDomain: "earningapp-f5159.firebaseapp.com",
-    projectId: "earningapp-f5159",
-    storageBucket: "earningapp-f5159.firebasestorage.app",
-    messagingSenderId: "12919105584",
-    appId: "1:12919105584:web:1e2602778c926d426625f5"
-  };
+<h2>Login</h2>
 
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-  const db = getFirestore(app);
-  const provider = new GoogleAuthProvider();
+<button onclick="login()">
 
-  let currentUser = null;
+Login With Google
 
-  // 🔐 LOGIN
-  window.login = async function () {
-    const result = await signInWithPopup(auth, provider);
-    currentUser = result.user;
+</button>
 
-    alert("Login Success: " + currentUser.email);
+<p id="userText">
 
-    // user save in Firestore
-    await setDoc(doc(db, "users", currentUser.uid), {
-      email: currentUser.email,
-      coins: 0
-    });
+Not Logged In
 
-    loadUser();
-  }
+</p>
 
-  // 📊 LOAD USER DATA
-  async function loadUser() {
-    const ref = doc(db, "users", currentUser.uid);
-    const snap = await getDoc(ref);
+</div>
 
-    if (snap.exists()) {
-      document.getElementById("coins").innerText = snap.data().coins;
-    }
-  }
+<!-- WALLET -->
 
-  // 💸 WITHDRAW REQUEST
-  window.withdraw = async function () {
-    if (!currentUser) {
-      alert("Login first!");
-      return;
-    }
+<div class="card">
 
-    await setDoc(doc(db, "withdrawals", currentUser.uid), {
-      uid: currentUser.uid,
-      status: "pending",
-      amount: 100
-    });
+<h2>Wallet</h2>
 
-    alert("Withdrawal request sent (WhatsApp process manual)");
-  }
+<div class="coins">
+
+Coins :
+
+<span id="coins">
+
+0
+
+</span>
+
+</div>
+
+</div>
+
+<!-- WITHDRAW -->
+
+<div class="card">
+
+<h2>Withdraw</h2>
+
+<button onclick="withdraw()">
+
+Request Withdraw
+
+</button>
+
+</div>
+
+<!-- HISTORY -->
+
+<div class="card">
+
+<h2>History</h2>
+
+<button onclick="openHistory()">
+
+Open History
+
+</button>
+
+</div>
+
+<!-- SURVEYS -->
+
+<div class="card">
+
+<h2>📋 Surveys</h2>
+
+<p>
+
+LootLabs link यहाँ आएगी
+
+</p>
+
+<button>
+
+Coming Soon
+
+</button>
+
+</div>
+
+<!-- OFFERWALL -->
+
+<div class="card">
+
+<h2>🎁 Offerwall</h2>
+
+<p>
+
+EarnHive link यहाँ आएगी
+
+</p>
+
+<button>
+
+Coming Soon
+
+</button>
+
+</div>
+
+<!-- ADS -->
+
+<div class="card">
+
+<h2>📢 Ads</h2>
+
+<p>
+
+Yllix code यहाँ आएगा
+
+</p>
+
+</div>
+
+</div>
+
+<!-- HISTORY PAGE -->
+
+<div
+
+id="historyPage"
+
+class="container"
+
+style="display:none;"
+
+>
+
+<div class="title">
+
+📜 HISTORY
+
+</div>
+
+<div
+
+id="historyContent"
+
+class="card"
+
+>
+
+❌ No History Found
+
+</div>
+
+<button onclick="goHome()">
+
+⬅ Back
+
+</button>
+
+</div>
+
+<script>
+
+let loggedIn=false;
+
+let historyData=[];
+
+function login(){
+
+loggedIn=true;
+
+document.getElementById("userText").innerText="Logged In";
+
+alert("Firebase login बाद में जोड़ेंगे");
+
+}
+
+function withdraw(){
+
+if(!loggedIn){
+
+alert("Login first");
+
+return;
+
+}
+
+historyData.push({
+
+amount:100,
+
+status:"Pending"
+
+});
+
+alert("Withdraw request added");
+
+}
+
+function openHistory(){
+
+document.getElementById("homePage").style.display="none";
+
+document.getElementById("historyPage").style.display="block";
+
+const box=document.getElementById("historyContent");
+
+if(historyData.length===0){
+
+box.innerHTML="❌ No History Found";
+
+return;
+
+}
+
+let html="";
+
+historyData.forEach(item=>{
+
+html+=`
+
+<div class="historyItem">
+
+💰 Amount : ${item.amount}
+
+<br>
+
+📌 Status : ${item.status}
+
+</div>
+
+`;
+
+});
+
+box.innerHTML=html;
+
+}
+
+function goHome(){
+
+document.getElementById("historyPage").style.display="none";
+
+document.getElementById("homePage").style.display="block";
+
+}
 
 </script>
 
 </body>
+
 </html>
