@@ -21,7 +21,7 @@ app.get("/postback", async (req, res) => {
 
   try {
 
-    const uid = req.query.uid;
+    const clickId = req.query.click_id || req.query.unique_id;
 
     const reward = Number(req.query.reward);
 
