@@ -1,79 +1,45 @@
 <!DOCTYPE html>
 <html>
-
 <head>
 
-<title>EARNING APP</title>
-
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>EARNING APP</title>
 
 <style>
 
 body{
-margin:0;
-font-family:Arial,sans-serif;
 background:#0f172a;
 color:white;
+font-family:Arial;
 text-align:center;
-}
-
-.container{
+margin:0;
 padding:20px;
 }
 
 .card{
-background:rgba(255,255,255,0.08);
-margin:20px;
+background:#1e293b;
 padding:20px;
-border-radius:18px;
-}
-
-.title{
-font-size:30px;
-color:#00ffcc;
-margin-bottom:20px;
+margin:20px auto;
+border-radius:15px;
+max-width:500px;
 }
 
 button{
-
 width:90%;
-
-max-width:300px;
-
 padding:15px;
-
 margin:10px;
-
 border:none;
-
 border-radius:12px;
-
-font-size:16px;
-
-font-weight:bold;
-
+font-size:18px;
 cursor:pointer;
-
-background:linear-gradient(45deg,#00ffcc,#0077ff);
-
+background:#00bfff;
 color:white;
-
 }
 
-.coins{
-
-font-size:25px;
-
-color:gold;
-
-}
-
-.historyItem{
-
-padding:10px;
-
-border-bottom:1px solid #444;
-
+#history{
+text-align:left;
 }
 
 </style>
@@ -82,23 +48,13 @@ border-bottom:1px solid #444;
 
 <body>
 
-<!-- HOME PAGE -->
-
-<div id="homePage" class="container">
-
-<div class="title">
-
-🔥 EARNING APP 🔥
-
-</div>
-
-<!-- LOGIN -->
+<h1>🔥 EARNING APP 🔥</h1>
 
 <div class="card">
 
 <h2>Login</h2>
 
-<button onclick="login()">
+<button id="loginBtn">
 
 Login With Google
 
@@ -112,33 +68,55 @@ Not Logged In
 
 </div>
 
-<!-- WALLET -->
-
 <div class="card">
 
 <h2>Wallet</h2>
 
-<div class="coins">
+<h1>
 
-Coins :
+🪙 <span id="coins">0</span>
 
-<span id="coins">
-
-0
-
-</span>
+</h1>
 
 </div>
-
-</div>
-
-<!-- WITHDRAW -->
 
 <div class="card">
 
-<h2>Withdraw</h2>
+<h2>📋 Surveys</h2>
 
-<button onclick="withdraw()">
+<a href="https://loot-link.com/s?GDfddiyb" target="_blank">
+
+<button>
+
+Open LootLabs
+
+</button>
+
+</a>
+
+</div>
+
+<div class="card">
+
+<h2>🎁 Offerwall</h2>
+
+<a href="https://adswedmedia.com/offer/qomMMngj/[USER_ID]" target="_blank">
+
+<button>
+
+Open AdswedMedia
+
+</button>
+
+</a>
+
+</div>
+
+<div class="card">
+
+<h2>💸 Withdraw</h2>
+
+<button id="withdrawBtn">
 
 Request Withdraw
 
@@ -146,133 +124,112 @@ Request Withdraw
 
 </div>
 
-<!-- HISTORY -->
-
 <div class="card">
 
-<h2>History</h2>
+<h2>📜 History</h2>
 
-<button onclick="openHistory()">
+<div id="history">
 
-Open History
-
-</button>
-
-</div>
-
-<!-- SURVEYS -->
-
-<div class="card">
-
-<h2>📋 Surveys</h2>
-
-<p>
-
-LootLabs link यहाँ आएगी
-
-</p>
-
-<button>
-
-Coming Soon
-
-</button>
-
-</div>
-
-<!-- OFFERWALL -->
-
-<div class="card">
-
-<h2>🎁 Offerwall</h2>
-
-<p>
-
-EarnHive link यहाँ आएगी
-
-</p>
-
-<button>
-
-Coming Soon
-
-</button>
-
-</div>
-
-<!-- ADS -->
-
-<div class="card">
-
-<h2>📢 Ads</h2>
-
-<p>
-
-Yllix code यहाँ आएगा
-
-</p>
+No history
 
 </div>
 
 </div>
 
-<!-- HISTORY PAGE -->
+<script type="module">
 
-<div
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
 
-id="historyPage"
+import {
+getAuth,
+GoogleAuthProvider,
+signInWithPopup
+} from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
 
-class="container"
+import {
+getFirestore,
+doc,
+getDoc,
+setDoc,
+updateDoc,
+onSnapshot,
+arrayUnion
+} from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
+const firebaseConfig = {
+  apiKey: "AIzaSyCl2Zut4rcT11Z_sTOUcY6-62AzxaCbAp4",
+  authDomain: "earningapp-f5159.firebaseapp.com",
+  projectId: "earningapp-f5159",
+  storageBucket: "earningapp-f5159.firebasestorage.app",
+  messagingSenderId: "12919105584",
+  appId: "1:12919105584:web:1e2602778c926d426625f5"
+};
+const app=initializeApp(firebaseConfig);
 
-style="display:none;"
+const auth=getAuth(app);
 
->
+const db=getFirestore(app);
 
-<div class="title">
+let currentUser=null;
 
-📜 HISTORY
+document.getElementById("loginBtn").onclick=async()=>{
 
-</div>
+const provider=new GoogleAuthProvider();
 
-<div
+const result=await signInWithPopup(auth,provider);
 
-id="historyContent"
+currentUser=result.user;
 
-class="card"
+document.getElementById("userText").innerText=currentUser.email;
 
->
+const ref=doc(db,"users",currentUser.uid);
 
-❌ No History Found
+const snap=await getDoc(ref);
 
-</div>
+if(!snap.exists()){
 
-<button onclick="goHome()">
+await setDoc(ref,{
 
-⬅ Back
+email:currentUser.email,
 
-</button>
+coins:0,
 
-</div>
+history:[]
 
-<script>
-
-let loggedIn=false;
-
-let historyData=[];
-
-function login(){
-
-loggedIn=true;
-
-document.getElementById("userText").innerText="Logged In";
-
-alert("Firebase login बाद में जोड़ेंगे");
+});
 
 }
 
-function withdraw(){
+onSnapshot(ref,(data)=>{
 
-if(!loggedIn){
+const d=data.data();
+
+document.getElementById("coins").innerText=d.coins||0;
+
+let html="";
+
+if(d.history.length===0){
+
+html="No history";
+
+}else{
+
+d.history.forEach(item=>{
+
+html+=item+"<br>";
+
+});
+
+}
+
+document.getElementById("history").innerHTML=html;
+
+});
+
+};
+
+document.getElementById("withdrawBtn").onclick=async()=>{
+
+if(!currentUser){
 
 alert("Login first");
 
@@ -280,65 +237,17 @@ return;
 
 }
 
-historyData.push({
+const ref=doc(db,"users",currentUser.uid);
 
-amount:100,
+await updateDoc(ref,{
 
-status:"Pending"
-
-});
-
-alert("Withdraw request added");
-
-}
-
-function openHistory(){
-
-document.getElementById("homePage").style.display="none";
-
-document.getElementById("historyPage").style.display="block";
-
-const box=document.getElementById("historyContent");
-
-if(historyData.length===0){
-
-box.innerHTML="❌ No History Found";
-
-return;
-
-}
-
-let html="";
-
-historyData.forEach(item=>{
-
-html+=`
-
-<div class="historyItem">
-
-💰 Amount : ${item.amount}
-
-<br>
-
-📌 Status : ${item.status}
-
-</div>
-
-`;
+history:arrayUnion("Withdraw request sent")
 
 });
 
-box.innerHTML=html;
+alert("Request Added");
 
-}
-
-function goHome(){
-
-document.getElementById("historyPage").style.display="none";
-
-document.getElementById("homePage").style.display="block";
-
-}
+};
 
 </script>
 
