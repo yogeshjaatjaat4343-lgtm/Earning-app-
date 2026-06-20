@@ -1,160 +1,285 @@
 <!DOCTYPE html>
-<html>
+<html lang="hi">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔥 ELITE EARNING APP 🔥</title>
+    <style>
+        :root {
+            --bg-dark: #090d16;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --accent-cyan: #00ffcc;
+            --accent-blue: #0077ff;
+            --text-main: #f8fafc;
+            --gold: #f59e0b;
+        }
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: radial-gradient(circle at top, #1e293b, var(--bg-dark));
+            color: var(--text-main);
+            text-align: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
 
-<title>EARNING APP</title>
+        .container {
+            padding: 20px;
+            max-width: 500px;
+            margin: 0 auto;
+            animation: fadeIn 0.5s ease-out;
+        }
 
-<style>
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
 
-body{
-background:#0f172a;
-color:white;
-font-family:Arial;
-text-align:center;
-margin:0;
-padding:20px;
-}
+        .title-banner {
+            font-size: 32px;
+            font-weight: 800;
+            background: linear-gradient(45deg, var(--accent-cyan), var(--accent-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin: 30px 0;
+            text-shadow: 0 0 20px rgba(0, 255, 204, 0.2);
+            letter-spacing: 1px;
+        }
 
-.card{
-background:#1e293b;
-padding:20px;
-margin:20px auto;
-border-radius:15px;
-max-width:500px;
-}
+        .card {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin: 20px 0;
+            padding: 25px;
+            border-radius: 24px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            transition: transform 0.2s, border-color 0.2s;
+        }
 
-button{
-width:90%;
-padding:15px;
-margin:10px;
-border:none;
-border-radius:12px;
-font-size:18px;
-cursor:pointer;
-background:#00bfff;
-color:white;
-}
+        .card:hover {
+            border-color: rgba(0, 255, 204, 0.3);
+        }
 
-#history{
-text-align:left;
-}
+        h2 {
+            margin-top: 0;
+            font-size: 20px;
+            color: #94a3b8;
+            letter-spacing: 0.5px;
+        }
 
-</style>
+        .profile-box {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 10px;
+        }
 
+        .profile-img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 2px solid var(--accent-cyan);
+        }
+
+        .coins-display {
+            font-size: 42px;
+            font-weight: 700;
+            color: var(--gold);
+            text-shadow: 0 0 15px rgba(245, 158, 11, 0.3);
+            margin: 10px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        button {
+            width: 100%;
+            padding: 16px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 16px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            color: white;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue));
+            box-shadow: 0 4px 15px rgba(0, 119, 255, 0.4);
+            transition: all 0.2s ease;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 255, 204, 0.5);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            box-shadow: none;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: none;
+        }
+
+        input {
+            width: 100%;
+            padding: 14px;
+            box-sizing: border-box;
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            color: white;
+            font-size: 16px;
+            margin-bottom: 12px;
+            text-align: center;
+            outline: none;
+        }
+
+        input:focus {
+            border-color: var(--accent-cyan);
+        }
+
+        .history-container {
+            max-height: 250px;
+            overflow-y: auto;
+            text-align: left;
+            margin-top: 15px;
+        }
+
+        .history-item {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 12px 16px;
+            border-radius: 12px;
+            margin-bottom: 8px;
+            border-left: 4px solid var(--accent-cyan);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .history-item.success { border-left-color: #10b981; }
+        .history-item.pending { border-left-color: #f59e0b; }
+
+        .iframe-wrapper {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: var(--bg-dark);
+            z-index: 9999;
+            display: none;
+            flex-direction: column;
+        }
+
+        .iframe-header {
+            background: #1e293b;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        iframe {
+            width: 100%;
+            flex-grow: 1;
+            border: none;
+        }
+
+        .hidden { display: none !important; }
+        
+        .loading-spinner {
+            border: 4px solid rgba(255,255,255,0.1);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border-left-color: var(--accent-cyan);
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
 </head>
-
 <body>
 
-<h1>🔥 EARNING APP 🔥</h1>
+    <div id="appContainer" class="container">
+        <div class="title-banner">🔥 ELITE EARNING APP 🔥</div>
 
-<div class="card">
+        <div id="loginCard" class="card">
+            <h2>यूज़र अकाउंट</h2>
+            <div id="loadingAuth" class="loading-spinner"></div>
+            <div id="unauthArea" class="hidden">
+                <p style="color: #94a3b8; margin-bottom: 20px;">सुरक्षित रूप से लॉगिन करें और कमाना शुरू करें।</p>
+                <button id="loginBtn">Sign In With Google</button>
+            </div>
+            <div id="authArea" class="hidden">
+                <div class="profile-box">
+                    <img id="userPhoto" class="profile-img" src="" alt="User">
+                    <div>
+                        <div id="userName" style="font-weight: 600;">Loading...</div>
+                        <div id="userEmail" style="font-size: 12px; color: #94a3b8;">Loading...</div>
+                    </div>
+                </div>
+                <button id="logoutBtn" class="btn-secondary" style="padding: 8px; margin-top: 15px; font-size: 12px; max-width: 100px;">Logout</button>
+            </div>
+        </div>
 
-<h2>Login</h2>
+        <div id="dashboardArea" class="hidden">
+            <div class="card">
+                <h2>आपका बैलेंस</h2>
+                <div class="coins-display">🪙 <span id="coinBalance">0</span></div>
+            </div>
 
-<button id="loginBtn">
+            <div class="card">
+                <h2>💰 अर्निंग जोन (Offers & Surveys)</h2>
+                
+                <button id="openOfferwallBtn">🎁 AdswedMedia Offerwall</button>
+                
+                <button id="openLootlabsBtn" style="background: linear-gradient(45deg, #a855f7, #6366f1); box-shadow: 0 4px 15px rgba(168, 85, 247, 0.4);">📋 LootLabs Surveys</button>
+            </div>
 
-Login With Google
+            <div class="card">
+                <h2>💸 विद्ड्रॉवल (Minimum: ₹100 = 100 Coins)</h2>
+                <p style="font-size: 13px; color: #94a3b8; margin-bottom: 15px;">1 Coin = ₹1 | विद्ड्रॉ करते ही व्हाट्सएप रिक्वेस्ट खुलेगी।</p>
+                <input type="number" id="withdrawCoins" placeholder="कॉइन्स दर्ज करें (Min 100)" min="100">
+                <input type="text" id="upiId" placeholder="अपनी UPI ID दर्ज करें (e.g., abc@upi)">
+                <button id="withdrawBtn">Request Withdraw</button>
+            </div>
 
-</button>
+            <div class="card">
+                <h2>📜 विद्ड्रॉवल हिस्ट्री</h2>
+                <div id="historyContent" class="history-container">
+                    </div>
+            </div>
+        </div>
+    </div>
 
-<p id="userText">
+    <div id="iframeOverlay" class="iframe-wrapper">
+        <div class="iframe-header">
+            <span style="font-weight: bold; color: var(--accent-cyan);">🎁 AdswedMedia Offerwall</span>
+            <button onclick="closeOfferwall()" style="margin:0; width:auto; padding: 8px 16px; background: #ef4444; box-shadow:none;">Close ✕</button>
+        </div>
+        <div id="iframeContainer" style="width:100%; flex-grow:1;"></div>
+    </div>
 
-Not Logged In
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut, setPersistence, browserLocalPersistence } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { getFirestore, doc, onSnapshot, collection, addDoc, query, where, orderBy, runTransaction, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-</p>
-
-</div>
-
-<div class="card">
-
-<h2>Wallet</h2>
-
-<h1>
-
-🪙 <span id="coins">0</span>
-
-</h1>
-
-</div>
-
-<div class="card">
-
-<h2>📋 Surveys</h2>
-
-<a href="https://loot-link.com/s?GDfddiyb" target="_blank">
-
-<button>
-
-Open LootLabs
-
-</button>
-
-</a>
-
-</div>
-
-<div class="card">
-
-<h2>🎁 Offerwall</h2>
-
-<a href="https://adswedmedia.com/offer/qomMMngj/[USER_ID]" target="_blank">
-
-<button>
-
-Open AdswedMedia
-
-</button>
-
-</a>
-
-</div>
-
-<div class="card">
-
-<h2>💸 Withdraw</h2>
-
-<button id="withdrawBtn">
-
-Request Withdraw
-
-</button>
-
-</div>
-
-<div class="card">
-
-<h2>📜 History</h2>
-
-<div id="history">
-
-No history
-
-</div>
-
-</div>
-
-<script type="module">
-
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
-
-import {
-getAuth,
-GoogleAuthProvider,
-signInWithPopup
-} from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
-
-import {
-getFirestore,
-doc,
-getDoc,
-setDoc,
-updateDoc,
-onSnapshot,
-arrayUnion
-} from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
+      // Your web app's Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyCl2Zut4rcT11Z_sTOUcY6-62AzxaCbAp4",
   authDomain: "earningapp-f5159.firebaseapp.com",
@@ -163,94 +288,218 @@ const firebaseConfig = {
   messagingSenderId: "12919105584",
   appId: "1:12919105584:web:1e2602778c926d426625f5"
 };
-const app=initializeApp(firebaseConfig);
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth();
+        const db = getFirestore();
+        // Login Persistence Set करना ताकि रिफ्रेश होने पर लॉगआउट न हो
+        setPersistence(auth, browserLocalPersistence);
 
-const auth=getAuth(app);
+        const provider = new GoogleAuthProvider();
 
-const db=getFirestore(app);
+        // Elements
+        const loadingAuth = document.getElementById("loadingAuth");
+        const unauthArea = document.getElementById("unauthArea");
+        const authArea = document.getElementById("authArea");
+        const dashboardArea = document.getElementById("dashboardArea");
+        const coinBalance = document.getElementById("coinBalance");
+        const historyContent = document.getElementById("historyContent");
 
-let currentUser=null;
+        let currentUser = null;
+        let unsubscribeCoins = null;
+        let unsubscribeHistory = null;
 
-document.getElementById("loginBtn").onclick=async()=>{
+        // 2. AUTH STATE LISTENER (PERSISTENCE CONFIG)
+        onAuthStateChanged(auth, async (user) => {
+            loadingAuth.classList.add("hidden");
+            if (user) {
+                currentUser = user;
+                unauthArea.classList.add("hidden");
+                authArea.classList.remove("hidden");
+                dashboardArea.classList.remove("hidden");
 
-const provider=new GoogleAuthProvider();
+                document.getElementById("userName").innerText = user.displayName;
+                document.getElementById("userEmail").innerText = user.email;
+                document.getElementById("userPhoto").src = user.photoURL || "https://via.placeholder.com/150";
 
-const result=await signInWithPopup(auth,provider);
+                // Setup Realtime Stream Listeners
+                setupRealtimeCoins(user.uid, user.email);
+                setupRealtimeHistory(user.uid);
+            } else {
+                currentUser = null;
+                authArea.classList.add("hidden");
+                dashboardArea.classList.add("hidden");
+                unauthArea.classList.remove("hidden");
+                
+                // Active Stream Cleanups
+                if (unsubscribeCoins) unsubscribeCoins();
+                if (unsubscribeHistory) unsubscribeHistory();
+            }
+        });
 
-currentUser=result.user;
+        // Google Sign In Trigger
+        document.getElementById("loginBtn").addEventListener("click", () => {
+            signInWithPopup(auth, provider).catch(err => alert("लॉगिन विफल: " + err.message));
+        });
 
-document.getElementById("userText").innerText=currentUser.email;
+        // Logout Trigger
+        document.getElementById("logoutBtn").addEventListener("click", () => {
+            signOut(auth);
+        });
 
-const ref=doc(db,"users",currentUser.uid);
+        // 3. REALTIME SYNC (COINS)
+        function setupRealtimeCoins(uid, email) {
+            const userDocRef = doc(db, "users", uid);
+            unsubscribeCoins = onSnapshot(userDocRef, (docSnap) => {
+                if (docSnap.exists()) {
+                    coinBalance.innerText = docSnap.data().coins || 0;
+                } else {
+                    // अगर नया यूज़र है तो बैकएंड क्रैश न हो, इसलिए बेसिक एंट्री
+                    coinBalance.innerText = 0;
+                }
+            });
+        }
 
-const snap=await getDoc(ref);
+        // 4. REALTIME SYNC (HISTORY)
+        function setupRealtimeHistory(uid) {
+            const historyQuery = query(
+                collection(db, "withdrawals"),
+                where("uid", "==", uid),
+                orderBy("timestamp", "desc")
+            );
 
-if(!snap.exists()){
+            unsubscribeHistory = onSnapshot(historyQuery, (querySnapshot) => {
+                if (querySnapshot.empty) {
+                    historyContent.innerHTML = `<div style="color: #64748b; text-align:center; padding:20px;">❌ कोई हिस्ट्री नहीं मिली</div>`;
+                    return;
+                }
 
-await setDoc(ref,{
+                let html = "";
+                querySnapshot.forEach((doc) => {
+                    const data = doc.data();
+                    const statusClass = data.status === "Success" ? "success" : "pending";
+                    const statusText = data.status === "Success" ? "✅ सफल" : "⏳ पेंडिंग";
+                    html += `
+                        <div class="history-item ${statusClass}">
+                            <div>
+                                <div style="font-weight: 600;">🪙 ${data.coins} कॉइन्स</div>
+                                <div style="font-size: 11px; color:#94a3b8; margin-top:2px;">UPI: ${data.upi}</div>
+                            </div>
+                            <div style="font-size: 13px; font-weight:600;">${statusText}</div>
+                        </div>
+                    `;
+                });
+                historyContent.innerHTML = html;
+            }, (error) => {
+                console.error("History Error:", error);
+                historyContent.innerHTML = `<div style="color: #ef4444; text-align:center; padding:20px;">त्रुटि: इतिहास लोड नहीं हुआ</div>`;
+            });
+        }
 
-email:currentUser.email,
+        // 5. ADSWEDMEDIA IFRAME CONFIG
+        document.getElementById("openOfferwallBtn").addEventListener("click", () => {
+            if (!currentUser) return;
+            const publicKey = "qomMMngj"; 
+            const userId = currentUser.uid; // Secure Mapping
+            
+            const iframeUrl = `https://adswedmedia.com/offer/${publicKey}/${userId}`;
+            
+            document.getElementById("iframeContainer").innerHTML = `
+                <iframe src="${iframeUrl}" allow="clipboard-write"></iframe>
+            `;
+            document.getElementById("iframeOverlay").style.display = "flex";
+        });
 
-coins:0,
+        window.closeOfferwall = function() {
+            document.getElementById("iframeOverlay").style.display = "none";
+            document.getElementById("iframeContainer").innerHTML = "";
+        }
 
-history:[]
+        // 6. LOOTLABS CONFIG
+        document.getElementById("openLootlabsBtn").addEventListener("click", () => {
+            if (!currentUser) return;
+            // Lootlabs की मूल शार्टलिंक के पीछे यूज़र की UID को unique_id पैरामीटर में भेजना अनिवार्य है
+            const baseLootlabsLink = "https://loot-link.com/s?GDfddiyb"; 
+            const secureLootUrl = `${baseLootlabsLink}&unique_id=${currentUser.uid}`;
+            
+            // सिस्टम ब्राउज़र में ऑफर खोलना
+            window.open(secureLootUrl, "_blank");
+        });
 
-});
+        // 7. SECURE WITHDRAW LOGIC (WITH TRANSATION & WHATSAPP REDIRECT)
+        document.getElementById("withdrawBtn").addEventListener("click", async () => {
+            if (!currentUser) return;
 
-}
+            const coinsInput = document.getElementById("withdrawCoins");
+            const upiInput = document.getElementById("upiId");
+            const amountToWithdraw = parseInt(coinsInput.value);
+            const upiIdValue = upiInput.value.trim();
 
-onSnapshot(ref,(data)=>{
+            if (isNaN(amountToWithdraw) || amountToWithdraw < 100) {
+                alert("कृपया न्यूनतम 100 या उससे अधिक कॉइन्स दर्ज करें।");
+                return;
+            }
+            if (!upiIdValue || !upiIdValue.includes("@")) {
+                alert("कृपया एक वैध UPI ID दर्ज करें।");
+                return;
+            }
 
-const d=data.data();
+            const userDocRef = doc(db, "users", currentUser.uid);
+            const targetWhatsAppNumber = "916375843097"; // आपका WhatsApp नंबर (91 कोड के साथ)
 
-document.getElementById("coins").innerText=d.coins||0;
+            try {
+                // Firestore Transaction: यह सुनिश्चित करता है कि कॉइन्स हैक न हो सकें और बैलेंस माइनस में न जाए
+                await runTransaction(db, async (transaction) => {
+                    const userDoc = await transaction.get(userDocRef);
+                    if (!userDoc.exists()) {
+                        throw "यूज़र डेटाबेस में मौजूद नहीं है!";
+                    }
 
-let html="";
+                    const currentCoins = userDoc.data().coins || 0;
+                    if (currentCoins < amountToWithdraw) {
+                        throw "आपके पास पर्याप्त कॉइन्स नहीं हैं!";
+                    }
 
-if(d.history.length===0){
+                    // 1. बैलेंस से कॉइन्स कम करें
+                    transaction.update(userDocRef, {
+                        coins: currentCoins - amountToWithdraw
+                    });
 
-html="No history";
+                    // 2. विद्ड्रॉवल कलेक्शन में पेंडिंग रिक्वेस्ट रिकॉर्ड जोड़ें
+                    const withdrawalRef = doc(collection(db, "withdrawals"));
+                    transaction.set(withdrawalRef, {
+                        uid: currentUser.uid,
+                        email: currentUser.email,
+                        name: currentUser.displayName,
+                        coins: amountToWithdraw,
+                        upi: upiIdValue,
+                        status: "Pending",
+                        timestamp: serverTimestamp()
+                    });
+                });
 
-}else{
+                // 3. व्हाट्सएप का मैसेज टेक्स्ट तैयार करना (ऑटो-फिल)
+                const messageText = `⚡ *NEW WITHDRAW REQUEST* ⚡\n\n` +
+                                    `👤 *Name:* ${currentUser.displayName}\n` +
+                                    `📧 *Email:* ${currentUser.email}\n` +
+                                    `🆔 *UID:* ${currentUser.uid}\n` +
+                                    `🪙 *Coins Redeemed:* ${amountToWithdraw}\n` +
+                                    `💰 *Amount:* ₹${amountToWithdraw}\n` +
+                                    `💳 *UPI ID:* ${upiIdValue}\n\n` +
+                                    `👉 _कृपया भुगतान करने के बाद स्टेटस को सक्सेस करें।_`;
 
-d.history.forEach(item=>{
+                const whatsappUrl = `https://api.whatsapp.com/send?phone=${targetWhatsAppNumber}&text=${encodeURIComponent(messageText)}`;
+                
+                // इनपुट बॉक्स को साफ़ करें और यूज़र को व्हाट्सएप पर भेजें
+                coinsInput.value = "";
+                upiInput.value = "";
+                alert("रिलीज़ रिक्वेस्ट सुरक्षित रूप से दर्ज कर ली गई है! व्हाट्सएप पर सेंड बटन दबाएं।");
+                window.location.href = whatsappUrl;
 
-html+=item+"<br>";
-
-});
-
-}
-
-document.getElementById("history").innerHTML=html;
-
-});
-
-};
-
-document.getElementById("withdrawBtn").onclick=async()=>{
-
-if(!currentUser){
-
-alert("Login first");
-
-return;
-
-}
-
-const ref=doc(db,"users",currentUser.uid);
-
-await updateDoc(ref,{
-
-history:arrayUnion("Withdraw request sent")
-
-});
-
-alert("Request Added");
-
-};
-
-</script>
-
+            } catch (error) {
+                alert("विद्ड्रॉ त्रुटि: " + error);
+            }
+        });
+    </script>
 </body>
-
 </html>
