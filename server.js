@@ -47,4 +47,6 @@ app.get("/postback", async (req, res) => {
 
 });
 
-app.listen(process.env.PORT || 3000);
+app.listen(process.env.PORT || 3000, () => {
+  console.log("Server Running");
+});
