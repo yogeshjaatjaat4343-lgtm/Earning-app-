@@ -339,7 +339,7 @@ const firebaseConfig = {
 
         // Google Sign In Trigger
         document.getElementById("loginBtn").addEventListener("click", () => {
-            signInWithRedirect(auth, provider).catch(err => alert("लॉगिन विफल: " + err.message));
+            signInWithPopup(auth, provider).catch(err => alert("लॉगिन विफल: " + err.message));
         });
 
         // Logout Trigger
