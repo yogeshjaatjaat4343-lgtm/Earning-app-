@@ -38,7 +38,9 @@ app.get("/postback", async (req, res) => {
     res.send("Coins Added");
 
   } catch (e) {
-
+    
+   console.log(e);
+    
     res.status(500).send("Error");
 
   }
