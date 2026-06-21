@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🔥 EARNING APP 🔥</title>
+    <title>🔥 ELITE EARNING APP 🔥</title>
     <style>
         :root {
             --bg-dark: #090d16;
@@ -273,13 +273,11 @@
         </div>
         <div id="iframeContainer" style="width:100%; flex-grow:1;"></div>
     </div>
-
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut, setPersistence, browserLocalPersistence } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
         import { getFirestore, doc, onSnapshot, collection, addDoc, query, where, orderBy, runTransaction, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-
-      // Your web app's Firebase configuration
+               // Your web app's Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyCl2Zut4rcT11Z_sTOUcY6-62AzxaCbAp4",
   authDomain: "earningapp-f5159.firebaseapp.com",
@@ -292,16 +290,18 @@ const firebaseConfig = {
         const app = initializeApp(firebaseConfig);
         const auth = getAuth();
         const db = getFirestore();
-        // Login Persistence Set करना ताकि रिफ्रेश होने पर लॉगआउट न हो
+
+        // ब्राउज़र/ऐप में सेशन परमानेंट रखने के लिए
         setPersistence(auth, browserLocalPersistence);
 
         const provider = new GoogleAuthProvider();
 
-        // Elements
+        // UI Elements
         const loadingAuth = document.getElementById("loadingAuth");
         const unauthArea = document.getElementById("unauthArea");
         const authArea = document.getElementById("authArea");
         const dashboardArea = document.getElementById("dashboardArea");
+        const loginCard = document.getElementById("loginCard");
         const coinBalance = document.getElementById("coinBalance");
         const historyContent = document.getElementById("historyContent");
 
@@ -309,21 +309,38 @@ const firebaseConfig = {
         let unsubscribeCoins = null;
         let unsubscribeHistory = null;
 
-        // 2. AUTH STATE LISTENER (PERSISTENCE CONFIG)
+        // आपकी GitHub लाइव वेबसाइट का सही URL (इसे अपने URL से बदलें)
+        const myGithubAppUrl = "https://yogeshjaatjaat4343-lgtm.github.io/Earning-app-/";
+
+        // 2. सिर्फ एक ही मुख्य AUTH STATE LISTENER (नो डुप्लिकेट)
         onAuthStateChanged(auth, async (user) => {
             loadingAuth.classList.add("hidden");
+            
             if (user) {
                 currentUser = user;
                 unauthArea.classList.add("hidden");
                 authArea.classList.remove("hidden");
                 dashboardArea.classList.remove("hidden");
 
+                // यूज़र प्रोफाइल डेटा दिखाएं
                 document.getElementById("userName").innerText = user.displayName;
                 document.getElementById("userEmail").innerText = user.email;
                 document.getElementById("userPhoto").src = user.photoURL || "https://via.placeholder.com/150";
 
-                // Setup Realtime Stream Listeners
-                setupRealtimeCoins(user.uid, user.email);
+                // अगर यह क्रोम टैब के अंदर खुला है (ऐप के बाहर), तो यूज़र को वापस भेजने के लिए बटन का टेक्स्ट बदलें
+                const urlParams = new URLSearchParams(window.location.search);
+                if (urlParams.get("force_chrome") === "true") {
+                    loginCard.innerHTML = `
+                        <div style="padding:15px; background:rgba(16,185,129,0.2); border-radius:12px; border:1px solid #10b981;">
+                            <h3 style="color:#10b981; margin:0 0 10px 0;">🎉 लॉगिन सफल हो गया है!</h3>
+                            <p style="font-size:14px; margin:0 0 15px 0;">अब आप इस क्रोम पेज को बंद करके या बैक बटन दबाकर अपनी मुख्य ऐप में वापस जा सकते हैं।</p>
+                            <button onclick="window.close()" style="background:#10b981;">⬅ ऐप में वापस जाएं</button>
+                        </div>
+                    `;
+                }
+
+                // कॉइन्स और हिस्ट्री सिंक शुरू करें
+                setupRealtimeCoins(user.uid);
                 setupRealtimeHistory(user.uid);
             } else {
                 currentUser = null;
@@ -331,44 +348,43 @@ const firebaseConfig = {
                 dashboardArea.classList.add("hidden");
                 unauthArea.classList.remove("hidden");
                 
-                // Active Stream Cleanups
                 if (unsubscribeCoins) unsubscribeCoins();
                 if (unsubscribeHistory) unsubscribeHistory();
             }
         });
-        onAuthStateChanged(auth, (user) => {
-    if (user) {
-        dashboardArea.classList.remove("hidden");
-        loginCard.classList.add("hidden");
-    } else {
-        dashboardArea.classList.add("hidden");
-        loginCard.classList.remove("hidden");
-    }
-});
-        // Google Sign In Trigger
+
+        // 3. डायरेक्ट क्रोम ओपनर ट्रिक (SIGN IN BUTTON TRIGGER)
         document.getElementById("loginBtn").addEventListener("click", () => {
-            signInWithPopup(auth, provider).catch(err => alert("लॉगिन विफल: " + err.message));
+            // अगर यूज़र ऐप के अंदर है, तो उसे `?force_chrome=true` पैरामीटर के साथ क्रोम कस्टम टैब में फेंकेंगे
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get("force_chrome") !== "true") {
+                const externalLoginUrl = myGithubAppUrl + "?force_chrome=true";
+                window.open(externalLoginUrl, "_blank"); 
+            } else {
+                // अगर वह पहले से ही क्रोम में आ चुका है, तो सामान्य पॉपअप लॉगिन काम कर जाएगा बिना एरर के
+                signInWithPopup(auth, provider).catch(err => alert("लॉगिन त्रुटि: " + err.message));
+            }
         });
 
-        // Logout Trigger
+        // Logout
         document.getElementById("logoutBtn").addEventListener("click", () => {
             signOut(auth);
+            window.location.href = myGithubAppUrl; // लॉगआउट के बाद यूआरएल क्लीन करें
         });
 
-        // 3. REALTIME SYNC (COINS)
-        function setupRealtimeCoins(uid, email) {
+        // 4. REALTIME COINS SYNC
+        function setupRealtimeCoins(uid) {
             const userDocRef = doc(db, "users", uid);
             unsubscribeCoins = onSnapshot(userDocRef, (docSnap) => {
                 if (docSnap.exists()) {
                     coinBalance.innerText = docSnap.data().coins || 0;
                 } else {
-                    // अगर नया यूज़र है तो बैकएंड क्रैश न हो, इसलिए बेसिक एंट्री
                     coinBalance.innerText = 0;
                 }
             });
         }
 
-        // 4. REALTIME SYNC (HISTORY)
+        // 5. REALTIME HISTORY SYNC
         function setupRealtimeHistory(uid) {
             const historyQuery = query(
                 collection(db, "withdrawals"),
@@ -399,22 +415,17 @@ const firebaseConfig = {
                 });
                 historyContent.innerHTML = html;
             }, (error) => {
-                console.error("History Error:", error);
+                console.error("History Stream Error:", error);
                 historyContent.innerHTML = `<div style="color: #ef4444; text-align:center; padding:20px;">त्रुटि: इतिहास लोड नहीं हुआ</div>`;
             });
         }
 
-        // 5. ADSWEDMEDIA IFRAME CONFIG
+        // 6. ADSWEDMEDIA IFRAME CONFIG
         document.getElementById("openOfferwallBtn").addEventListener("click", () => {
             if (!currentUser) return;
             const publicKey = "qomMMngj"; 
-            const userId = currentUser.uid; // Secure Mapping
-            
-            const iframeUrl = `https://adswedmedia.com/offer/${publicKey}/${userId}`;
-            
-            document.getElementById("iframeContainer").innerHTML = `
-                <iframe src="${iframeUrl}" allow="clipboard-write"></iframe>
-            `;
+            const iframeUrl = `https://adswedmedia.com/offer/${publicKey}/${currentUser.uid}`;
+            document.getElementById("iframeContainer").innerHTML = `<iframe src="${iframeUrl}" allow="clipboard-write"></iframe>`;
             document.getElementById("iframeOverlay").style.display = "flex";
         });
 
@@ -423,18 +434,14 @@ const firebaseConfig = {
             document.getElementById("iframeContainer").innerHTML = "";
         }
 
-        // 6. LOOTLABS CONFIG
+        // 7. LOOTLABS CONFIG
         document.getElementById("openLootlabsBtn").addEventListener("click", () => {
             if (!currentUser) return;
-            // Lootlabs की मूल शार्टलिंक के पीछे यूज़र की UID को unique_id पैरामीटर में भेजना अनिवार्य है
             const baseLootlabsLink = "https://loot-link.com/s?GDfddiyb"; 
-            const secureLootUrl = `${baseLootlabsLink}&unique_id=${currentUser.uid}`;
-            
-            // सिस्टम ब्राउज़र में ऑफर खोलना
-            window.open(secureLootUrl, "_blank");
+            window.open(`${baseLootlabsLink}&unique_id=${currentUser.uid}`, "_blank");
         });
 
-        // 7. SECURE WITHDRAW LOGIC (WITH TRANSATION & WHATSAPP REDIRECT)
+        // 8. SECURE WITHDRAW LOGIC (WITH TRANSATION & WHATSAPP REDIRECT)
         document.getElementById("withdrawBtn").addEventListener("click", async () => {
             if (!currentUser) return;
 
@@ -453,27 +460,18 @@ const firebaseConfig = {
             }
 
             const userDocRef = doc(db, "users", currentUser.uid);
-            const targetWhatsAppNumber = "916375843097"; // आपका WhatsApp नंबर (91 कोड के साथ)
+            const targetWhatsAppNumber = "916375843097"; 
 
             try {
-                // Firestore Transaction: यह सुनिश्चित करता है कि कॉइन्स हैक न हो सकें और बैलेंस माइनस में न जाए
                 await runTransaction(db, async (transaction) => {
                     const userDoc = await transaction.get(userDocRef);
-                    if (!userDoc.exists()) {
-                        throw "यूज़र डेटाबेस में मौजूद नहीं है!";
-                    }
+                    if (!userDoc.exists()) throw "यूज़र डेटाबेस में मौजूद नहीं है!";
 
                     const currentCoins = userDoc.data().coins || 0;
-                    if (currentCoins < amountToWithdraw) {
-                        throw "आपके पास पर्याप्त कॉइन्स नहीं हैं!";
-                    }
+                    if (currentCoins < amountToWithdraw) throw "आपके पास पर्याप्त कॉइन्स नहीं हैं!";
 
-                    // 1. बैलेंस से कॉइन्स कम करें
-                    transaction.update(userDocRef, {
-                        coins: currentCoins - amountToWithdraw
-                    });
+                    transaction.update(userDocRef, { coins: currentCoins - amountToWithdraw });
 
-                    // 2. विद्ड्रॉवल कलेक्शन में पेंडिंग रिक्वेस्ट रिकॉर्ड जोड़ें
                     const withdrawalRef = doc(collection(db, "withdrawals"));
                     transaction.set(withdrawalRef, {
                         uid: currentUser.uid,
@@ -486,7 +484,6 @@ const firebaseConfig = {
                     });
                 });
 
-                // 3. व्हाट्सएप का मैसेज टेक्स्ट तैयार करना (ऑटो-फिल)
                 const messageText = `⚡ *NEW WITHDRAW REQUEST* ⚡\n\n` +
                                     `👤 *Name:* ${currentUser.displayName}\n` +
                                     `📧 *Email:* ${currentUser.email}\n` +
@@ -498,10 +495,9 @@ const firebaseConfig = {
 
                 const whatsappUrl = `https://api.whatsapp.com/send?phone=${targetWhatsAppNumber}&text=${encodeURIComponent(messageText)}`;
                 
-                // इनपुट बॉक्स को साफ़ करें और यूज़र को व्हाट्सएप पर भेजें
                 coinsInput.value = "";
                 upiInput.value = "";
-                alert("रिलीज़ रिक्वेस्ट सुरक्षित रूप से दर्ज कर ली गई है! व्हाट्सएप पर सेंड बटन दबाएं।");
+                alert("विद्ड्रॉवल दर्ज कर लिया गया है! व्हाट्सएप पर सेंड बटन दबाएं।");
                 window.location.href = whatsappUrl;
 
             } catch (error) {
