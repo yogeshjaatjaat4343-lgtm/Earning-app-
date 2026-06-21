@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🔥 ELITE EARNING APP 🔥</title>
+    <title>🔥 EARNING APP 🔥</title>
     <style>
         :root {
             --bg-dark: #090d16;
@@ -317,9 +317,11 @@ const firebaseConfig = {
                 unauthArea.classList.add("hidden");
                 authArea.classList.remove("hidden");
                 dashboardArea.classList.remove("hidden");
+
                 document.getElementById("userName").innerText = user.displayName;
                 document.getElementById("userEmail").innerText = user.email;
                 document.getElementById("userPhoto").src = user.photoURL || "https://via.placeholder.com/150";
+
                 // Setup Realtime Stream Listeners
                 setupRealtimeCoins(user.uid, user.email);
                 setupRealtimeHistory(user.uid);
@@ -328,36 +330,26 @@ const firebaseConfig = {
                 authArea.classList.add("hidden");
                 dashboardArea.classList.add("hidden");
                 unauthArea.classList.remove("hidden");
+                
                 // Active Stream Cleanups
                 if (unsubscribeCoins) unsubscribeCoins();
                 if (unsubscribeHistory) unsubscribeHistory();
             }
         });
         onAuthStateChanged(auth, (user) => {
-
-    const urlParams = new URLSearchParams(window.location.search);
-
-    const loggedInFromRedirect = urlParams.get("loggedin");
-
-    if (user || loggedInFromRedirect) {
-
-        // SHOW DASHBOARD
-        document.getElementById("dashboardArea").classList.remove("hidden");
-        document.getElementById("loginCard").classList.add("hidden");
-
+    if (user) {
+        dashboardArea.classList.remove("hidden");
+        loginCard.classList.add("hidden");
     } else {
-
-        // SHOW LOGIN
-        document.getElementById("loginCard").classList.remove("hidden");
-        document.getElementById("dashboardArea").classList.add("hidden");
+        dashboardArea.classList.add("hidden");
+        loginCard.classList.remove("hidden");
     }
-
 });
         // Google Sign In Trigger
-    document.getElementById("loginBtn").addEventListener("click", () => {
-    const redirectUrl = "https://yogeshjaatjaat4343-lgtm.github.io/Earning-app-/?loggedin=true";
-    window.location.href = redirectUrl;
-});
+        document.getElementById("loginBtn").addEventListener("click", () => {
+            signInWithPopup(auth, provider).catch(err => alert("लॉगिन विफल: " + err.message));
+        });
+
         // Logout Trigger
         document.getElementById("logoutBtn").addEventListener("click", () => {
             signOut(auth);
