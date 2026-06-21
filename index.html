@@ -220,24 +220,10 @@
         <div id="loginCard" class="card">
             <h2>यूज़र अकाउंट</h2>
             <div id="loadingAuth" class="loading-spinner"></div>
-            
             <div id="unauthArea" class="hidden">
                 <p style="color: #94a3b8; margin-bottom: 20px;">सुरक्षित रूप से लॉगिन करें और कमाना शुरू करें।</p>
                 <button id="loginBtn">Sign In With Google</button>
             </div>
-
-            <div id="chromeLoginArea" class="hidden" style="text-align:center; padding:10px;">
-                <p style="color: #00ffcc; font-weight: 600; margin-bottom: 15px;">क्रोम लॉगिन वेरिफिकेशन</p>
-                <button id="realChromeLoginBtn" style="background:#4285F4; box-shadow: 0 4px 15px rgba(66,133,244,0.4);">
-                    यहाँ क्लिक करके ईमेल चुनें 🚀
-                </button>
-            </div>
-
-            <div id="chromeSuccessArea" class="hidden" style="padding:15px; background:rgba(16,185,129,0.15); border-radius:12px; border:2px solid #10b981;">
-                <h3 style="color:#10b981; margin:0 0 10px 0;">🎉 लॉगिन पूरी तरह सफल!</h3>
-                <p style="font-size:14px; margin:0 0 15px 0; color:#cbd5e1;">आपका लॉगिन सेव हो गया है। अब आप फोन का बैक बटन दबाकर सीधे ऐप में वापस जा सकते हैं।</p>
-            </div>
-
             <div id="authArea" class="hidden">
                 <div class="profile-box">
                     <img id="userPhoto" class="profile-img" src="" alt="User">
@@ -258,7 +244,9 @@
 
             <div class="card">
                 <h2>💰 अर्निंग जोन (Offers & Surveys)</h2>
+                
                 <button id="openOfferwallBtn">🎁 AdswedMedia Offerwall</button>
+                
                 <button id="openLootlabsBtn" style="background: linear-gradient(45deg, #a855f7, #6366f1); box-shadow: 0 4px 15px rgba(168, 85, 247, 0.4);">📋 LootLabs Surveys</button>
             </div>
 
@@ -272,7 +260,8 @@
 
             <div class="card">
                 <h2>📜 विद्ड्रॉवल हिस्ट्री</h2>
-                <div id="historyContent" class="history-container"></div>
+                <div id="historyContent" class="history-container">
+                    </div>
             </div>
         </div>
     </div>
@@ -287,29 +276,30 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getAuth, signInWithRedirect, GoogleAuthProvider, onAuthStateChanged, signOut, setPersistence, browserLocalPersistence, getRedirectResult } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut, setPersistence, browserLocalPersistence } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
         import { getFirestore, doc, onSnapshot, collection, addDoc, query, where, orderBy, runTransaction, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-        
-        const firebaseConfig = {
-          apiKey: "AIzaSyCl2Zut4rcT11Z_sTOUcY6-62AzxaCbAp4",
-          authDomain: "earningapp-f5159.firebaseapp.com",
-          projectId: "earningapp-f5159",
-          storageBucket: "earningapp-f5159.firebasestorage.app",
-          messagingSenderId: "12919105584",
-          appId: "1:12919105584:web:1e2602778c926d426625f5"
-        };
 
+      // Your web app's Firebase configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyCl2Zut4rcT11Z_sTOUcY6-62AzxaCbAp4",
+  authDomain: "earningapp-f5159.firebaseapp.com",
+  projectId: "earningapp-f5159",
+  storageBucket: "earningapp-f5159.firebasestorage.app",
+  messagingSenderId: "12919105584",
+  appId: "1:12919105584:web:1e2602778c926d426625f5"
+};
+        // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const auth = getAuth();
         const db = getFirestore();
-
+        // Login Persistence Set करना ताकि रिफ्रेश होने पर लॉगआउट न हो
         setPersistence(auth, browserLocalPersistence);
+
         const provider = new GoogleAuthProvider();
 
+        // Elements
         const loadingAuth = document.getElementById("loadingAuth");
         const unauthArea = document.getElementById("unauthArea");
-        const chromeLoginArea = document.getElementById("chromeLoginArea");
-        const chromeSuccessArea = document.getElementById("chromeSuccessArea");
         const authArea = document.getElementById("authArea");
         const dashboardArea = document.getElementById("dashboardArea");
         const coinBalance = document.getElementById("coinBalance");
@@ -319,100 +309,58 @@
         let unsubscribeCoins = null;
         let unsubscribeHistory = null;
 
-        const myGithubAppUrl = "https://yogeshjaatjaat4343-lgtm.github.io/Earning-app-/";
-
-        // यूआरएल पैरामीटर से मोड का पता लगाएं
-        const urlParams = new URLSearchParams(window.location.search);
-        const isForceChromeMode = urlParams.get("force_chrome") === "true";
-
-        // रिडायरेक्ट का रिजल्ट चेक करें (क्रोम में लॉगिन के बाद वापस आने पर)
-        getRedirectResult(auth).catch((err) => {
-            console.error("Redirect Error:", err);
-        });
-
-        // मुख्य ऑथ लिसनर
+        // 2. AUTH STATE LISTENER (PERSISTENCE CONFIG)
         onAuthStateChanged(auth, async (user) => {
             loadingAuth.classList.add("hidden");
-            
             if (user) {
                 currentUser = user;
                 unauthArea.classList.add("hidden");
-                chromeLoginArea.classList.add("hidden");
+                authArea.classList.remove("hidden");
+                dashboardArea.classList.remove("hidden");
 
-                if (isForceChromeMode) {
-                    // अगर सच में क्रोम में लॉगिन हो चुका है
-                    chromeSuccessArea.classList.remove("hidden");
-                    authArea.classList.add("hidden");
-                    dashboardArea.classList.add("hidden");
-                } else {
-                    // जब यूज़र ऐप के अंदर हो और पहले से लॉग इन हो
-                    authArea.classList.remove("hidden");
-                    dashboardArea.classList.remove("hidden");
-                    
-                    document.getElementById("userName").innerText = user.displayName;
-                    document.getElementById("userEmail").innerText = user.email;
-                    document.getElementById("userPhoto").src = user.photoURL || "https://via.placeholder.com/150";
+                document.getElementById("userName").innerText = user.displayName;
+                document.getElementById("userEmail").innerText = user.email;
+                document.getElementById("userPhoto").src = user.photoURL || "https://via.placeholder.com/150";
 
-                    setupRealtimeCoins(user.uid);
-                    setupRealtimeHistory(user.uid);
-                }
+                // Setup Realtime Stream Listeners
+                setupRealtimeCoins(user.uid, user.email);
+                setupRealtimeHistory(user.uid);
             } else {
                 currentUser = null;
                 authArea.classList.add("hidden");
                 dashboardArea.classList.add("hidden");
-                chromeSuccessArea.classList.add("hidden");
-
-                if (isForceChromeMode) {
-                    // क्रोम के अंदर: यहाँ असली ईमेल चुनने का बटन दिखेगा
-                    unauthArea.classList.add("hidden");
-                    chromeLoginArea.classList.remove("hidden");
-                } else {
-                    // ऐप के अंदर: केवल क्रोम में धक्का देने वाला बटन दिखेगा
-                    chromeLoginArea.classList.add("hidden");
-                    unauthArea.classList.remove("hidden");
-                }
+                unauthArea.classList.remove("hidden");
                 
+                // Active Stream Cleanups
                 if (unsubscribeCoins) unsubscribeCoins();
                 if (unsubscribeHistory) unsubscribeHistory();
             }
         });
 
-        // ऐप के अंदर का बटन: सीधे एंड्रॉइड इंटेंट से क्रोम खोलेगा (पैरामीटर के साथ)
+        // Google Sign In Trigger
         document.getElementById("loginBtn").addEventListener("click", () => {
-            const targetUrl = myGithubAppUrl + "?force_chrome=true";
-            const chromeIntent = "intent://" + targetUrl.replace(/^https?:\/\//, "") + 
-                                 "#Intent;scheme=https;package=com.android.chrome;end";
-            window.location.href = chromeIntent;
+            signInWithPopup(auth, provider).catch(err => alert("लॉगिन विफल: " + err.message));
         });
 
-        // क्रोम ब्राउज़र के अंदर दिखने वाला असली बटन (Redirect Logic)
-        document.getElementById("realChromeLoginBtn").addEventListener("click", () => {
-            // कोई पॉपअप नहीं, सीधे इसी पेज को गूगल लॉगिन पर रिडायरेक्ट करेगा
-            signInWithRedirect(auth, provider).catch(err => {
-                alert("लॉगिन त्रुटि: " + err.message);
-            });
-        });
-
-        // लॉगआउट बटन
+        // Logout Trigger
         document.getElementById("logoutBtn").addEventListener("click", () => {
-            signOut(auth).then(() => {
-                window.location.href = myGithubAppUrl;
-            });
+            signOut(auth);
         });
 
-        // रियल-टाइम कॉइन्स ट्रैकिंग
-        function setupRealtimeCoins(uid) {
+        // 3. REALTIME SYNC (COINS)
+        function setupRealtimeCoins(uid, email) {
             const userDocRef = doc(db, "users", uid);
             unsubscribeCoins = onSnapshot(userDocRef, (docSnap) => {
                 if (docSnap.exists()) {
                     coinBalance.innerText = docSnap.data().coins || 0;
                 } else {
+                    // अगर नया यूज़र है तो बैकएंड क्रैश न हो, इसलिए बेसिक एंट्री
                     coinBalance.innerText = 0;
                 }
             });
         }
 
-        // रियल-टाइम विद्ड्रॉवल हिस्ट्री
+        // 4. REALTIME SYNC (HISTORY)
         function setupRealtimeHistory(uid) {
             const historyQuery = query(
                 collection(db, "withdrawals"),
@@ -443,17 +391,22 @@
                 });
                 historyContent.innerHTML = html;
             }, (error) => {
-                console.error("History Stream Error:", error);
+                console.error("History Error:", error);
                 historyContent.innerHTML = `<div style="color: #ef4444; text-align:center; padding:20px;">त्रुटि: इतिहास लोड नहीं हुआ</div>`;
             });
         }
 
-        // AdswedMedia Offerwall
+        // 5. ADSWEDMEDIA IFRAME CONFIG
         document.getElementById("openOfferwallBtn").addEventListener("click", () => {
             if (!currentUser) return;
             const publicKey = "qomMMngj"; 
-            const iframeUrl = `https://adswedmedia.com/offer/${publicKey}/${currentUser.uid}`;
-            document.getElementById("iframeContainer").innerHTML = `<iframe src="${iframeUrl}" allow="clipboard-write"></iframe>`;
+            const userId = currentUser.uid; // Secure Mapping
+            
+            const iframeUrl = `https://adswedmedia.com/offer/${publicKey}/${userId}`;
+            
+            document.getElementById("iframeContainer").innerHTML = `
+                <iframe src="${iframeUrl}" allow="clipboard-write"></iframe>
+            `;
             document.getElementById("iframeOverlay").style.display = "flex";
         });
 
@@ -462,14 +415,18 @@
             document.getElementById("iframeContainer").innerHTML = "";
         }
 
-        // LootLabs Surveys
+        // 6. LOOTLABS CONFIG
         document.getElementById("openLootlabsBtn").addEventListener("click", () => {
             if (!currentUser) return;
+            // Lootlabs की मूल शार्टलिंक के पीछे यूज़र की UID को unique_id पैरामीटर में भेजना अनिवार्य है
             const baseLootlabsLink = "https://loot-link.com/s?GDfddiyb"; 
-            window.open(`${baseLootlabsLink}&unique_id=${currentUser.uid}`, "_blank");
+            const secureLootUrl = `${baseLootlabsLink}&unique_id=${currentUser.uid}`;
+            
+            // सिस्टम ब्राउज़र में ऑफर खोलना
+            window.open(secureLootUrl, "_blank");
         });
 
-        // विद्ड्रॉवल लॉजिक
+        // 7. SECURE WITHDRAW LOGIC (WITH TRANSATION & WHATSAPP REDIRECT)
         document.getElementById("withdrawBtn").addEventListener("click", async () => {
             if (!currentUser) return;
 
@@ -488,18 +445,27 @@
             }
 
             const userDocRef = doc(db, "users", currentUser.uid);
-            const targetWhatsAppNumber = "916375843097"; 
+            const targetWhatsAppNumber = "916375843097"; // आपका WhatsApp नंबर (91 कोड के साथ)
 
             try {
+                // Firestore Transaction: यह सुनिश्चित करता है कि कॉइन्स हैक न हो सकें और बैलेंस माइनस में न जाए
                 await runTransaction(db, async (transaction) => {
                     const userDoc = await transaction.get(userDocRef);
-                    if (!userDoc.exists()) throw "यूज़र डेटाबेस में मौजूद नहीं है!";
+                    if (!userDoc.exists()) {
+                        throw "यूज़र डेटाबेस में मौजूद नहीं है!";
+                    }
 
                     const currentCoins = userDoc.data().coins || 0;
-                    if (currentCoins < amountToWithdraw) throw "आपके पास पर्याप्त कॉइन्स नहीं हैं!";
+                    if (currentCoins < amountToWithdraw) {
+                        throw "आपके पास पर्याप्त कॉइन्स नहीं हैं!";
+                    }
 
-                    transaction.update(userDocRef, { coins: currentCoins - amountToWithdraw });
+                    // 1. बैलेंस से कॉइन्स कम करें
+                    transaction.update(userDocRef, {
+                        coins: currentCoins - amountToWithdraw
+                    });
 
+                    // 2. विद्ड्रॉवल कलेक्शन में पेंडिंग रिक्वेस्ट रिकॉर्ड जोड़ें
                     const withdrawalRef = doc(collection(db, "withdrawals"));
                     transaction.set(withdrawalRef, {
                         uid: currentUser.uid,
@@ -512,6 +478,7 @@
                     });
                 });
 
+                // 3. व्हाट्सएप का मैसेज टेक्स्ट तैयार करना (ऑटो-फिल)
                 const messageText = `⚡ *NEW WITHDRAW REQUEST* ⚡\n\n` +
                                     `👤 *Name:* ${currentUser.displayName}\n` +
                                     `📧 *Email:* ${currentUser.email}\n` +
@@ -523,9 +490,10 @@
 
                 const whatsappUrl = `https://api.whatsapp.com/send?phone=${targetWhatsAppNumber}&text=${encodeURIComponent(messageText)}`;
                 
+                // इनपुट बॉक्स को साफ़ करें और यूज़र को व्हाट्सएप पर भेजें
                 coinsInput.value = "";
                 upiInput.value = "";
-                alert("विद्ड्रॉवल दर्ज कर लिया गया है! व्हाट्सएप पर सेंड बटन दबाएं।");
+                alert("रिलीज़ रिक्वेस्ट सुरक्षित रूप से दर्ज कर ली गई है! व्हाट्सएप पर सेंड बटन दबाएं।");
                 window.location.href = whatsappUrl;
 
             } catch (error) {
