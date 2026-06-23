@@ -70,19 +70,40 @@
             letter-spacing: 0.5px;
         }
 
-        .profile-box {
+        .admin-profile-container {
+            background: rgba(0, 255, 204, 0.03);
+            border: 1px dashed rgba(0, 255, 204, 0.3);
+            border-radius: 16px;
+            padding: 12px;
+            margin-bottom: 20px;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 12px;
-            margin-top: 10px;
+            gap: 15px;
         }
 
-        .profile-img {
-            width: 40px;
-            height: 40px;
+        .admin-avatar {
+            width: 55px;
+            height: 55px;
             border-radius: 50%;
             border: 2px solid var(--accent-cyan);
+            box-shadow: 0 0 15px rgba(0, 255, 204, 0.4);
+            object-fit: cover;
+        }
+
+        .admin-details {
+            text-align: left;
+        }
+
+        .admin-tag {
+            background: linear-gradient(45deg, #f59e0b, #ef4444);
+            font-size: 10px;
+            font-weight: bold;
+            padding: 2px 8px;
+            border-radius: 20px;
+            color: white;
+            display: inline-block;
+            margin-bottom: 3px;
         }
 
         .coins-display {
@@ -171,33 +192,6 @@
         .history-item.success { border-left-color: #10b981; }
         .history-item.pending { border-left-color: #f59e0b; }
 
-        .iframe-wrapper {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: var(--bg-dark);
-            z-index: 9999;
-            display: none;
-            flex-direction: column;
-        }
-
-        .iframe-header {
-            background: #1e293b;
-            padding: 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        iframe {
-            width: 100%;
-            flex-grow: 1;
-            border: none;
-        }
-
         .hidden { display: none !important; }
         
         .loading-spinner {
@@ -216,7 +210,16 @@
 
     <div id="appContainer" class="container">
         <div class="title-banner">🔥 ELITE EARNING APP 🔥</div>
-
+         
+        <div class="admin-profile-container">
+            <img class="admin-avatar" src="https://ibb.co/fGTscfQ8" alt="Admin App Owner">
+            <div class="admin-details">
+                <span class="admin-tag">👑 APP OWNER</span>
+                <div style="font-weight: 700; font-size:15px; color:#fff;">Yogesh Jaat</div>
+                <div style="font-size: 11px; color: #00ffcc;">Verified Developer</div>
+            </div>
+        </div>
+        
         <div id="loginCard" class="card">
             <h2>यूज़र अकाउंट</h2>
             <div id="loadingAuth" class="loading-spinner"></div>
@@ -224,15 +227,12 @@
                 <p style="color: #94a3b8; margin-bottom: 20px;">सुरक्षित रूप से लॉगिन करें और कमाना शुरू करें।</p>
                 <button id="loginBtn">Sign In With Google</button>
             </div>
+            
             <div id="authArea" class="hidden">
-                <div class="profile-box">
-                    <img id="userPhoto" class="profile-img" src="" alt="User">
-                    <div>
-                        <div id="userName" style="font-weight: 600;">Loading...</div>
-                        <div id="userEmail" style="font-size: 12px; color: #94a3b8;">Loading...</div>
-                    </div>
-                </div>
-                <button id="logoutBtn" class="btn-secondary" style="padding: 8px; margin-top: 15px; font-size: 12px; max-width: 100px;">Logout</button>
+                <div style="font-size:13px; color:#94a3b8; margin-bottom:5px;">लॉगिन यूज़र:</div>
+                <div style="font-weight: 600; color:#00ffcc;" id="userName">Loading...</div>
+                <div style="font-size: 12px; color: #64748b;" id="userEmail">Loading...</div>
+                <button id="logoutBtn" class="btn-secondary" style="padding: 6px; margin-top: 10px; font-size: 11px; max-width: 90px;">Logout</button>
             </div>
         </div>
 
@@ -244,72 +244,66 @@
 
             <div class="card">
                 <h2>💰 अर्निंग जोन (Offers & Surveys)</h2>
-                
                 <button id="openOfferwallBtn">🎁 AdswedMedia Offerwall</button>
-                
                 <button id="openLootlabsBtn" style="background: linear-gradient(45deg, #a855f7, #6366f1); box-shadow: 0 4px 15px rgba(168, 85, 247, 0.4);">📋 LootLabs Surveys</button>
             </div>
 
             <div class="card">
-                <h2>💸 विद्ड्रॉवल (Minimum: ₹100 = 100 Coins)</h2>
-                <p style="font-size: 13px; color: #94a3b8; margin-bottom: 15px;">1 Coin = ₹1 | विद्ड्रॉ करते ही व्हाट्सएप रिक्वेस्ट खुलेगी।</p>
-                <input type="number" id="withdrawCoins" placeholder="कॉइन्स दर्ज करें (Min 100)" min="100">
+                <h2>💸 विद्ड्रॉवल जोन</h2>
+                <p style="font-size: 12px; color: #94a3b8; margin-bottom: 12px;" id="withdrawLimitInfo">
+                    💡 पहला विद्ड्रॉवल: न्यूनतम ₹1 | अगला विद्ड्रॉवल: न्यूनतम ₹100
+                </p>
+                <input type="number" id="withdrawCoins" placeholder="कॉइन्स दर्ज करें" min="1">
                 <input type="text" id="upiId" placeholder="अपनी UPI ID दर्ज करें (e.g., abc@upi)">
                 <button id="withdrawBtn">Request Withdraw</button>
             </div>
 
             <div class="card">
                 <h2>📜 विद्ड्रॉवल हिस्ट्री</h2>
-                <div id="historyContent" class="history-container">
-                    </div>
+                <div id="historyContent" class="history-container"></div>
             </div>
         </div>
-    </div>
-
-    <div id="iframeOverlay" class="iframe-wrapper">
-        <div class="iframe-header">
-            <span style="font-weight: bold; color: var(--accent-cyan);">🎁 AdswedMedia Offerwall</span>
-            <button onclick="closeOfferwall()" style="margin:0; width:auto; padding: 8px 16px; background: #ef4444; box-shadow:none;">Close ✕</button>
-        </div>
-        <div id="iframeContainer" style="width:100%; flex-grow:1;"></div>
     </div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut, setPersistence, browserLocalPersistence } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-        import { getFirestore, doc, onSnapshot, collection, addDoc, query, where, orderBy, runTransaction, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { getFirestore, doc, onSnapshot, collection, getDocs, query, where, runTransaction, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-      // Your web app's Firebase configuration
-const firebaseConfig = {
-  apiKey: "AIzaSyCl2Zut4rcT11Z_sTOUcY6-62AzxaCbAp4",
-  authDomain: "earningapp-f5159.firebaseapp.com",
-  projectId: "earningapp-f5159",
-  storageBucket: "earningapp-f5159.firebasestorage.app",
-  messagingSenderId: "12919105584",
-  appId: "1:12919105584:web:1e2602778c926d426625f5"
-};
-        // Initialize Firebase
+        const firebaseConfig = {
+          apiKey: "AIzaSyCl2Zut4rcT11Z_sTOUcY6-62AzxaCbAp4",
+          authDomain: "earningapp-f5159.firebaseapp.com",
+          projectId: "earningapp-f5159",
+          storageBucket: "earningapp-f5159.firebasestorage.app",
+          messagingSenderId: "12919105584",
+          appId: "1:12919105584:web:1e2602778c926d426625f5"
+        };
+
         const app = initializeApp(firebaseConfig);
         const auth = getAuth();
         const db = getFirestore();
-        // Login Persistence Set करना ताकि रिफ्रेश होने पर लॉगआउट न हो
-        setPersistence(auth, browserLocalPersistence);
+        
+        // Fix 2: setPersistence को सही से प्रॉमिस हैंडलिंग के साथ सेट करना
+        setPersistence(auth, browserLocalPersistence)
+            .then(() => console.log("Persistence Enabled"))
+            .catch(err => console.error("Persistence Error:", err));
 
         const provider = new GoogleAuthProvider();
 
-        // Elements
         const loadingAuth = document.getElementById("loadingAuth");
         const unauthArea = document.getElementById("unauthArea");
         const authArea = document.getElementById("authArea");
         const dashboardArea = document.getElementById("dashboardArea");
         const coinBalance = document.getElementById("coinBalance");
         const historyContent = document.getElementById("historyContent");
+        const withdrawLimitInfo = document.getElementById("withdrawLimitInfo");
+        const withdrawCoinsInput = document.getElementById("withdrawCoins");
 
         let currentUser = null;
         let unsubscribeCoins = null;
         let unsubscribeHistory = null;
+        let isFirstTimeUser = true;
 
-        // 2. AUTH STATE LISTENER (PERSISTENCE CONFIG)
         onAuthStateChanged(auth, async (user) => {
             loadingAuth.classList.add("hidden");
             if (user) {
@@ -320,52 +314,59 @@ const firebaseConfig = {
 
                 document.getElementById("userName").innerText = user.displayName;
                 document.getElementById("userEmail").innerText = user.email;
-                document.getElementById("userPhoto").src = user.photoURL || "https://via.placeholder.com/150";
 
-                // Setup Realtime Stream Listeners
-                setupRealtimeCoins(user.uid, user.email);
+                setupRealtimeCoins(user.uid);
                 setupRealtimeHistory(user.uid);
+                checkWithdrawalHistoryLimit(user.uid);
             } else {
                 currentUser = null;
                 authArea.classList.add("hidden");
                 dashboardArea.classList.add("hidden");
                 unauthArea.classList.remove("hidden");
                 
-                // Active Stream Cleanups
                 if (unsubscribeCoins) unsubscribeCoins();
                 if (unsubscribeHistory) unsubscribeHistory();
             }
         });
 
-        // Google Sign In Trigger
         document.getElementById("loginBtn").addEventListener("click", () => {
             signInWithPopup(auth, provider).catch(err => alert("लॉगिन विफल: " + err.message));
         });
 
-        // Logout Trigger
         document.getElementById("logoutBtn").addEventListener("click", () => {
             signOut(auth);
         });
 
-        // 3. REALTIME SYNC (COINS)
-        function setupRealtimeCoins(uid, email) {
+        function setupRealtimeCoins(uid) {
             const userDocRef = doc(db, "users", uid);
             unsubscribeCoins = onSnapshot(userDocRef, (docSnap) => {
                 if (docSnap.exists()) {
                     coinBalance.innerText = docSnap.data().coins || 0;
                 } else {
-                    // अगर नया यूज़र है तो बैकएंड क्रैश न हो, इसलिए बेसिक एंट्री
                     coinBalance.innerText = 0;
                 }
             });
         }
 
-        // 4. REALTIME SYNC (HISTORY)
+        async function checkWithdrawalHistoryLimit(uid) {
+            const q = query(collection(db, "withdrawals"), where("uid", "==", uid));
+            const querySnapshot = await getDocs(q);
+            if (!querySnapshot.empty) {
+                isFirstTimeUser = false;
+                withdrawLimitInfo.innerHTML = "💡 मिनिमम विद्ड्रॉवल लिमिट: <b>₹100</b> (100 Coins)";
+                withdrawCoinsInput.placeholder = "कॉइन्स दर्ज करें (Min 100)";
+            } else {
+                isFirstTimeUser = true;
+                withdrawLimitInfo.innerHTML = "🎉 आपका पहला विद्ड्रॉवल! मिनिमम लिमिट: <b>₹1</b> (1 Coin)";
+                withdrawCoinsInput.placeholder = "कॉइन्स दर्ज करें (Min 1)";
+            }
+        }
+
+        // Fix 3: Composite Index Error को बाईपास करके जावास्क्रिप्ट सॉर्टिंग का उपयोग
         function setupRealtimeHistory(uid) {
             const historyQuery = query(
                 collection(db, "withdrawals"),
-                where("uid", "==", uid),
-                orderBy("timestamp", "desc")
+                where("uid", "==", uid)
             );
 
             unsubscribeHistory = onSnapshot(historyQuery, (querySnapshot) => {
@@ -374,9 +375,21 @@ const firebaseConfig = {
                     return;
                 }
 
-                let html = "";
+                // सारे डॉक्यूमेंट्स एरे में लेना
+                let items = [];
                 querySnapshot.forEach((doc) => {
-                    const data = doc.data();
+                    items.push(doc.data());
+                });
+
+                // जावास्क्रिप्ट से क्लाइंट साइड पर टाइमस्टैम्प के हिसाब से नया ऊपर (Desc) सॉर्ट करना
+                items.sort((a, b) => {
+                    const timeA = a.timestamp ? a.timestamp.toMillis() : 0;
+                    const timeB = b.timestamp ? b.timestamp.toMillis() : 0;
+                    return timeB - timeA;
+                });
+
+                let html = "";
+                items.forEach((data) => {
                     const statusClass = data.status === "Success" ? "success" : "pending";
                     const statusText = data.status === "Success" ? "✅ सफल" : "⏳ पेंडिंग";
                     html += `
@@ -390,43 +403,25 @@ const firebaseConfig = {
                     `;
                 });
                 historyContent.innerHTML = html;
+                checkWithdrawalHistoryLimit(uid);
             }, (error) => {
-                console.error("History Error:", error);
-                historyContent.innerHTML = `<div style="color: #ef4444; text-align:center; padding:20px;">त्रुटि: इतिहास लोड नहीं हुआ</div>`;
+                console.error("History Listener Error:", error);
             });
         }
 
-        // 5. ADSWEDMEDIA IFRAME CONFIG
         document.getElementById("openOfferwallBtn").addEventListener("click", () => {
             if (!currentUser) return;
             const publicKey = "qomMMngj"; 
-            const userId = currentUser.uid; // Secure Mapping
-            
-            const iframeUrl = `https://adswedmedia.com/offer/${publicKey}/${userId}`;
-            
-            document.getElementById("iframeContainer").innerHTML = `
-                <iframe src="${iframeUrl}" allow="clipboard-write"></iframe>
-            `;
-            document.getElementById("iframeOverlay").style.display = "flex";
+            const offerwallUrl = `https://adswedmedia.com/offer/${publicKey}/${currentUser.uid}`;
+            window.open(offerwallUrl, "_blank");
         });
 
-        window.closeOfferwall = function() {
-            document.getElementById("iframeOverlay").style.display = "none";
-            document.getElementById("iframeContainer").innerHTML = "";
-        }
-
-        // 6. LOOTLABS CONFIG
         document.getElementById("openLootlabsBtn").addEventListener("click", () => {
             if (!currentUser) return;
-            // Lootlabs की मूल शार्टलिंक के पीछे यूज़र की UID को unique_id पैरामीटर में भेजना अनिवार्य है
             const baseLootlabsLink = "https://loot-link.com/s?GDfddiyb"; 
-            const secureLootUrl = `${baseLootlabsLink}&unique_id=${currentUser.uid}`;
-            
-            // सिस्टम ब्राउज़र में ऑफर खोलना
-            window.open(secureLootUrl, "_blank");
+            window.open(`${baseLootlabsLink}&unique_id=${currentUser.uid}`, "_blank");
         });
 
-        // 7. SECURE WITHDRAW LOGIC (WITH TRANSATION & WHATSAPP REDIRECT)
         document.getElementById("withdrawBtn").addEventListener("click", async () => {
             if (!currentUser) return;
 
@@ -435,8 +430,10 @@ const firebaseConfig = {
             const amountToWithdraw = parseInt(coinsInput.value);
             const upiIdValue = upiInput.value.trim();
 
-            if (isNaN(amountToWithdraw) || amountToWithdraw < 100) {
-                alert("कृपया न्यूनतम 100 या उससे अधिक कॉइन्स दर्ज करें।");
+            const minLimit = isFirstTimeUser ? 1 : 100;
+
+            if (isNaN(amountToWithdraw) || amountToWithdraw < minLimit) {
+                alert(`कृपया न्यूनतम ${minLimit} या उससे अधिक कॉइन्स दर्ज करें।`);
                 return;
             }
             if (!upiIdValue || !upiIdValue.includes("@")) {
@@ -445,27 +442,18 @@ const firebaseConfig = {
             }
 
             const userDocRef = doc(db, "users", currentUser.uid);
-            const targetWhatsAppNumber = "916375843097"; // आपका WhatsApp नंबर (91 कोड के साथ)
+            const targetWhatsAppNumber = "916375843097"; 
 
             try {
-                // Firestore Transaction: यह सुनिश्चित करता है कि कॉइन्स हैक न हो सकें और बैलेंस माइनस में न जाए
                 await runTransaction(db, async (transaction) => {
                     const userDoc = await transaction.get(userDocRef);
-                    if (!userDoc.exists()) {
-                        throw "यूज़र डेटाबेस में मौजूद नहीं है!";
-                    }
+                    if (!userDoc.exists()) throw "यूज़र डेटाबेस में मौजूद नहीं है!";
 
                     const currentCoins = userDoc.data().coins || 0;
-                    if (currentCoins < amountToWithdraw) {
-                        throw "आपके पास पर्याप्त कॉइन्स नहीं हैं!";
-                    }
+                    if (currentCoins < amountToWithdraw) throw "आपके पास पर्याप्त कॉइन्स नहीं हैं!";
 
-                    // 1. बैलेंस से कॉइन्स कम करें
-                    transaction.update(userDocRef, {
-                        coins: currentCoins - amountToWithdraw
-                    });
+                    transaction.update(userDocRef, { coins: currentCoins - amountToWithdraw });
 
-                    // 2. विद्ड्रॉवल कलेक्शन में पेंडिंग रिक्वेस्ट रिकॉर्ड जोड़ें
                     const withdrawalRef = doc(collection(db, "withdrawals"));
                     transaction.set(withdrawalRef, {
                         uid: currentUser.uid,
@@ -478,7 +466,6 @@ const firebaseConfig = {
                     });
                 });
 
-                // 3. व्हाट्सएप का मैसेज टेक्स्ट तैयार करना (ऑटो-फिल)
                 const messageText = `⚡ *NEW WITHDRAW REQUEST* ⚡\n\n` +
                                     `👤 *Name:* ${currentUser.displayName}\n` +
                                     `📧 *Email:* ${currentUser.email}\n` +
@@ -490,10 +477,9 @@ const firebaseConfig = {
 
                 const whatsappUrl = `https://api.whatsapp.com/send?phone=${targetWhatsAppNumber}&text=${encodeURIComponent(messageText)}`;
                 
-                // इनपुट बॉक्स को साफ़ करें और यूज़र को व्हाट्सएप पर भेजें
                 coinsInput.value = "";
                 upiInput.value = "";
-                alert("रिलीज़ रिक्वेस्ट सुरक्षित रूप से दर्ज कर ली गई है! व्हाट्सएप पर सेंड बटन दबाएं।");
+                alert("विद्ड्रॉ रिक्वेस्ट सुरक्षित रूप से दर्ज कर ली गई है! व्हाट्सएप पर सेंड बटन दबाएं।");
                 window.location.href = whatsappUrl;
 
             } catch (error) {
