@@ -22,19 +22,9 @@ app.get("/postback", async (req, res) => {
   try {
     console.log("Postback Signal Received:", req.query);
 
-    const uid = req.query.uid;
+    const uid = req.query.uid || req.query.subId;
     const incomingReward = req.query.reward || req.query.amount;
-    const requestToken = req.query.token; // यूआरएल से टोकन पढ़ना
-
-    // 1. सीक्रेट टोकन की जांच (हैकर्स को रोकने के लिए)
-    // तुम रेंडर के Environment Variables में POSTBACK_SECRET नाम से अपना एक पासवर्ड सेट कर सकते हो
-    const secureToken = process.env.POSTBACK_SECRET || "Yogesh@2026637584"; 
-    
-    if (!requestToken || requestToken !== secureToken) {
-        console.log("⚠️ Unauthorized attempt blocked! Invalid Token.");
-        return res.status(403).send("Forbidden: Invalid Secret Token");
-    }
-
+    console.log("UID =", uid);
     if (!uid || !incomingReward) {
       console.log("❌ Rejected: Missing uid or reward data");
       return res.status(400).send("Missing data");
