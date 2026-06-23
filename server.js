@@ -22,9 +22,14 @@ app.get("/postback", async (req, res) => {
   try {
     console.log("Postback Signal Received:", req.query);
 
-    const uid = req.query.uid || req.query.subId;
-    console.log("UID =", uid);
-    const incomingReward = req.query.reward || req.query.amount;
+    const uid = req.query.uid || req.query.subId || req.query.userId;
+    console.log("FINAL UID:", uid);
+    let incomingReward = req.query.reward || req.query.amount || req.query.payout;
+    console.log("FINAL REWARD:", incomingReward);
+
+if (Array.isArray(incomingReward)) {
+    incomingReward = incomingReward[incomingReward.length - 1];
+}
     console.log("UID =", uid);
     if (!uid || !incomingReward) {
       console.log("❌ Rejected: Missing uid or reward data");
