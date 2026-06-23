@@ -23,6 +23,7 @@ app.get("/postback", async (req, res) => {
     console.log("Postback Signal Received:", req.query);
 
     const uid = req.query.uid || req.query.subId;
+    console.log("UID =", uid);
     const incomingReward = req.query.reward || req.query.amount;
     console.log("UID =", uid);
     if (!uid || !incomingReward) {
