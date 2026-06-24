@@ -413,6 +413,7 @@
             if (!currentUser) return;
             const publicKey = "qomMMngj"; 
             const offerwallUrl = `https://adswedmedia.com/offer/${publicKey}/${currentUser.uid}`;
+            console.log("Current User UID =", currentUser.uid);
             window.open(offerwallUrl, "_blank");
         });
 
