@@ -42,17 +42,31 @@ if (Array.isArray(incomingReward)) {
     // मान लो AdswedMedia डॉलर ($0.01) भेजता है, तो गुणा 100 होगा। 
     // लेकिन अगर वो सीधा पॉइंट्स/सेंट्स (जैसे 1 या 100) भेजता है, तो तुम गुणा हटाकर सीधा `Math.round(reward)` रख सकते हो।
     // अभी सुरक्षा के लिए हम इसे डॉलर सेंट्स के हिसाब से सेफ रख रहे हैं:
-    let coins = Math.round(reward * 100);
-    
-    // सुरक्षा जांच: अगर गलती से अमाउंट 100 डॉलर (यानी 10000 कॉइन्स) आ जाए, तो उसे लिमिट करना
-    if (coins > 500) { 
-        console.log(`⚠️ Warning: असामान्य रूप से अधिक कॉइन्स (${coins}), इसे 500 पर लिमिट किया गया।`);
-        coins = 500; 
-    }
+    const reward = Number(incomingReward);
 
-    if (coins <= 0) coins = 1;
+// 70% यूजर
+const userReward = reward * 0.7;
 
-    console.log(`🪙 User ID: ${uid} के लिए ${coins} कॉइन्स प्रोसेस हो रहे हैं...`);
+// 30% एडमिन
+const adminCommission = reward * 0.3;
+
+// कॉइन्स
+let coins = Math.round(userReward * 100);
+
+// सेफ्टी लिमिट
+if (coins > 5000) {
+  console.log(`⚠️ Warning: असामान्य रूप से अधिक कॉइन्स (${coins}), इसे 5000 पर लिमिट किया गया।`);
+  coins = 5000;
+}
+
+if (coins <= 0) coins = 1;
+
+// Logs
+console.log(`💰 Total Reward = ${reward}`);
+console.log(`👤 User Reward (70%) = ${userReward}`);
+console.log(`👑 Admin Commission (30%) = ${adminCommission}`);
+
+console.log(`🪙 User ID: ${uid} के लिए ${coins} कॉइन्स प्रोसेस हो रहे हैं...`);
 
     // फ़ायरबेस स्टोर अपडेट करना
     await db.collection("users").doc(uid).set(
