@@ -340,17 +340,19 @@ user.displayName + "\nUID: " + user.uid;
         });
         function setupRealtimeCoins(uid) {
     const userDocRef = doc(db, "users", uid);
+    console.log("Reading UID =", uid);
     unsubscribeCoins = onSnapshot(userDocRef, (docSnap) => {
-        alert(
-          "UID = " + uid +
-          "\nExists = " + docSnap.exists() +
-          "\nCoins = " + (docSnap.data()?.coins)
-        );
+        console.log("Exists =", docSnap.exists());
         if (docSnap.exists()) {
-            coinBalance.innerText = docSnap.data().coins || 0;
+            const data = docSnap.data();
+            console.log("Full Data =", data);
+            coinBalance.innerText = String(data.coins);
         } else {
-            coinBalance.innerText = 0;
+            console.log("Document not found");
+            coinBalance.innerText = "0";
         }
+    }, (error) => {
+        alert("Firestore Error: " + error.message);
     });
 }
         async function checkWithdrawalHistoryLimit(uid) {
@@ -372,7 +374,6 @@ user.displayName + "\nUID: " + user.uid;
                 collection(db, "withdrawals"),
                 where("uid", "==", uid)
             );
-
             unsubscribeHistory = onSnapshot(historyQuery, (querySnapshot) => {
                 if (querySnapshot.empty) {
                     historyContent.innerHTML = `<div style="color: #64748b; text-align:center; padding:20px;">❌ कोई हिस्ट्री नहीं मिली</div>`;
@@ -383,14 +384,12 @@ user.displayName + "\nUID: " + user.uid;
                 querySnapshot.forEach((doc) => {
                     items.push(doc.data());
                 });
-
                 // जावास्क्रिप्ट से क्लाइंट साइड पर टाइमस्टैम्प के हिसाब से नया ऊपर (Desc) सॉर्ट करना
                 items.sort((a, b) => {
                     const timeA = a.timestamp ? a.timestamp.toMillis() : 0;
                     const timeB = b.timestamp ? b.timestamp.toMillis() : 0;
                     return timeB - timeA;
                 });
-
                 let html = "";
                 items.forEach((data) => {
                     const statusClass = data.status === "Success" ? "success" : "pending";
@@ -411,7 +410,6 @@ user.displayName + "\nUID: " + user.uid;
                 console.error("History Listener Error:", error);
             });
         }
-
         document.getElementById("openOfferwallBtn").addEventListener("click", () => {
             if (!currentUser) return;
             const publicKey = "qomMMngj"; 
@@ -424,17 +422,13 @@ user.displayName + "\nUID: " + user.uid;
             const baseLootlabsLink = "https://loot-link.com/s?GDfddiyb"; 
             window.open(`${baseLootlabsLink}&unique_id=${currentUser.uid}`, "_blank");
         });
-
         document.getElementById("withdrawBtn").addEventListener("click", async () => {
             if (!currentUser) return;
-
             const coinsInput = document.getElementById("withdrawCoins");
             const upiInput = document.getElementById("upiId");
             const amountToWithdraw = parseInt(coinsInput.value);
             const upiIdValue = upiInput.value.trim();
-
             const minLimit = isFirstTimeUser ? 1 : 100;
-
             if (isNaN(amountToWithdraw) || amountToWithdraw < minLimit) {
                 alert(`कृपया न्यूनतम ${minLimit} या उससे अधिक कॉइन्स दर्ज करें।`);
                 return;
@@ -443,7 +437,6 @@ user.displayName + "\nUID: " + user.uid;
                 alert("कृपया एक वैध UPI ID दर्ज करें।");
                 return;
             }
-
             const userDocRef = doc(db, "users", currentUser.uid);
             const targetWhatsAppNumber = "916375843097"; 
 
