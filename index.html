@@ -338,13 +338,15 @@ user.displayName + "\nUID: " + user.uid;
         document.getElementById("logoutBtn").addEventListener("click", () => {
             signOut(auth);
         });
-       function setupRealtimeCoins(uid) {
-    console.log("UID =", uid);
+        function setupRealtimeCoins(uid) {
     const userDocRef = doc(db, "users", uid);
     unsubscribeCoins = onSnapshot(userDocRef, (docSnap) => {
-        console.log("Document exists =", docSnap.exists());
+        alert(
+          "UID = " + uid +
+          "\nExists = " + docSnap.exists() +
+          "\nCoins = " + (docSnap.data()?.coins)
+        );
         if (docSnap.exists()) {
-            console.log(docSnap.data());
             coinBalance.innerText = docSnap.data().coins || 0;
         } else {
             coinBalance.innerText = 0;
