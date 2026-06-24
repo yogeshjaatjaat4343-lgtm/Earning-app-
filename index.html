@@ -314,6 +314,8 @@
 
                 document.getElementById("userName").innerText = user.displayName;
                 document.getElementById("userEmail").innerText = user.email;
+                document.getElementById("userName").innerText =
+          user.displayName + "\nUID: " + user.uid;
 
                 setupRealtimeCoins(user.uid);
                 setupRealtimeHistory(user.uid);
