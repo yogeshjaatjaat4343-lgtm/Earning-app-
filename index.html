@@ -359,8 +359,8 @@
                 withdrawCoinsInput.placeholder = "कॉइन्स दर्ज करें (Min 10000)";
             } else {
                 isFirstTimeUser = true;
-                withdrawLimitInfo.innerHTML = "🎉 आपका पहला विद्ड्रॉवल! मिनिमम लिमिट: <b>₹1</b> (1 Coin)";
-                withdrawCoinsInput.placeholder = "कॉइन्स दर्ज करें (Min 100)";
+                withdrawLimitInfo.innerHTML = "🎉 आपका पहला विद्ड्रॉवल! मिनिमम लिमिट: <b>₹1</b> (100 Coin)";
+                withdrawCoinsInput.placeholder = "कॉइन्स दर्ज करें (Min 10000)";
             }
         }
         // Fix 3: Composite Index Error को बाईपास करके जावास्क्रिप्ट सॉर्टिंग का उपयोग
@@ -422,7 +422,7 @@
             const upiInput = document.getElementById("upiId");
             const amountToWithdraw = parseInt(coinsInput.value);
             const upiIdValue = upiInput.value.trim();
-            const minLimit = isFirstTimeUser ? 1 : 100;
+            const minLimit = isFirstTimeUser ? 100 : 10000;
             if (isNaN(amountToWithdraw) || amountToWithdraw < minLimit) {
                 alert(`कृपया न्यूनतम ${minLimit} या उससे अधिक कॉइन्स दर्ज करें।`);
                 return;
