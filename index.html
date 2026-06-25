@@ -253,7 +253,7 @@
                 <p style="font-size: 12px; color: #94a3b8; margin-bottom: 12px;" id="withdrawLimitInfo">
                     💡 पहला विद्ड्रॉवल: न्यूनतम ₹1 | अगला विद्ड्रॉवल: न्यूनतम ₹100
                 </p>
-                <input type="number" id="withdrawCoins" placeholder="कॉइन्स दर्ज करें" min="1">
+                <input type="number" id="withdrawCoins" placeholder="कॉइन्स दर्ज करें"min="100">  
                 <input type="text" id="upiId" placeholder="अपनी UPI ID दर्ज करें (e.g., abc@upi)">
                 <button id="withdrawBtn">Request Withdraw</button>
             </div>
@@ -314,9 +314,6 @@
 
                 document.getElementById("userName").innerText = user.displayName;
                 document.getElementById("userEmail").innerText = user.email;
-                document.getElementById("userName").innerText =
-user.displayName + "\nUID: " + user.uid;
-
                 setupRealtimeCoins(user.uid);
                 setupRealtimeHistory(user.uid);
                 checkWithdrawalHistoryLimit(user.uid);
@@ -330,11 +327,9 @@ user.displayName + "\nUID: " + user.uid;
                 if (unsubscribeHistory) unsubscribeHistory();
             }
         });
-
         document.getElementById("loginBtn").addEventListener("click", () => {
             signInWithPopup(auth, provider).catch(err => alert("लॉगिन विफल: " + err.message));
         });
-
         document.getElementById("logoutBtn").addEventListener("click", () => {
             signOut(auth);
         });
@@ -360,12 +355,12 @@ user.displayName + "\nUID: " + user.uid;
             const querySnapshot = await getDocs(q);
             if (!querySnapshot.empty) {
                 isFirstTimeUser = false;
-                withdrawLimitInfo.innerHTML = "💡 मिनिमम विद्ड्रॉवल लिमिट: <b>₹100</b> (100 Coins)";
-                withdrawCoinsInput.placeholder = "कॉइन्स दर्ज करें (Min 100)";
+                withdrawLimitInfo.innerHTML = "💡 मिनिमम विद्ड्रॉवल लिमिट: <b>₹100</b> (10000 Coins)";
+                withdrawCoinsInput.placeholder = "कॉइन्स दर्ज करें (Min 10000)";
             } else {
                 isFirstTimeUser = true;
                 withdrawLimitInfo.innerHTML = "🎉 आपका पहला विद्ड्रॉवल! मिनिमम लिमिट: <b>₹1</b> (1 Coin)";
-                withdrawCoinsInput.placeholder = "कॉइन्स दर्ज करें (Min 1)";
+                withdrawCoinsInput.placeholder = "कॉइन्स दर्ज करें (Min 100)";
             }
         }
         // Fix 3: Composite Index Error को बाईपास करके जावास्क्रिप्ट सॉर्टिंग का उपयोग
@@ -416,7 +411,6 @@ user.displayName + "\nUID: " + user.uid;
             const offerwallUrl = `https://adswedmedia.com/offer/${publicKey}/${currentUser.uid}`;
             window.open(offerwallUrl, "_blank");
         });
-
         document.getElementById("openLootlabsBtn").addEventListener("click", () => {
             if (!currentUser) return;
             const baseLootlabsLink = "https://loot-link.com/s?GDfddiyb"; 
