@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>🔥 ELITE EARNING APP 🔥</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
             --bg-dark: #090d16;
@@ -16,7 +17,7 @@
 
         body {
             margin: 0;
-            padding: 0;
+            padding: 0 0 80px 0; /* बॉटम बार के लिए नीचे जगह */
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: radial-gradient(circle at top, #1e293b, var(--bg-dark));
             color: var(--text-main);
@@ -38,12 +39,12 @@
         }
 
         .title-banner {
-            font-size: 32px;
+            font-size: 28px;
             font-weight: 800;
             background: linear-gradient(45deg, var(--accent-cyan), var(--accent-blue));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            margin: 30px 0;
+            margin: 20px 0;
             text-shadow: 0 0 20px rgba(0, 255, 204, 0.2);
             letter-spacing: 1px;
         }
@@ -52,8 +53,8 @@
             background: var(--card-bg);
             backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            margin: 20px 0;
-            padding: 25px;
+            margin: 15px 0;
+            padding: 22px;
             border-radius: 24px;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
             transition: transform 0.2s, border-color 0.2s;
@@ -65,9 +66,13 @@
 
         h2 {
             margin-top: 0;
-            font-size: 20px;
+            font-size: 18px;
             color: #94a3b8;
             letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
         }
 
         .admin-profile-container {
@@ -138,10 +143,6 @@
             box-shadow: 0 6px 20px rgba(0, 255, 204, 0.5);
         }
 
-        button:active {
-            transform: translateY(0);
-        }
-
         .btn-secondary {
             background: rgba(255, 255, 255, 0.1);
             box-shadow: none;
@@ -150,7 +151,6 @@
 
         .btn-secondary:hover {
             background: rgba(255, 255, 255, 0.15);
-            box-shadow: none;
         }
 
         input {
@@ -172,7 +172,7 @@
         }
 
         .history-container {
-            max-height: 250px;
+            max-height: 300px;
             overflow-y: auto;
             text-align: left;
             margin-top: 15px;
@@ -204,6 +204,55 @@
             margin: 20px auto;
         }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        /* 📱 न्यू प्रोफेशनल बॉटम ट्रेवल बार */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 500px;
+            background: rgba(15, 23, 42, 0.9);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-around;
+            padding: 12px 0;
+            box-sizing: border-box;
+            z-index: 999;
+            border-radius: 20px 20px 0 0;
+        }
+
+        .nav-item {
+            color: #64748b;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            transition: color 0.2s;
+        }
+
+        .nav-item i {
+            font-size: 20px;
+        }
+
+        .nav-item.active {
+            color: var(--accent-cyan);
+            text-shadow: 0 0 10px rgba(0, 255, 204, 0.4);
+        }
+
+        /* स्क्रीन्स स्टेबलाइज़र */
+        .app-screen {
+            display: none;
+            animation: fadeIn 0.4s ease-out;
+        }
+        .app-screen.active-screen {
+            display: block;
+        }
     </style>
 </head>
 <body>
@@ -221,49 +270,90 @@
         </div>
         
         <div id="loginCard" class="card">
-            <h2>यूज़र अकाउंट</h2>
+            <h2><i class="fa-solid fa-user-shield"></i> यूज़र अकाउंट</h2>
             <div id="loadingAuth" class="loading-spinner"></div>
             <div id="unauthArea" class="hidden">
                 <p style="color: #94a3b8; margin-bottom: 20px;">सुरक्षित रूप से लॉगिन करें और कमाना शुरू करें।</p>
-                <button id="loginBtn">Sign In With Google</button>
+                <button id="loginBtn"><i class="fa-brands fa-google"></i> Sign In With Google</button>
             </div>
             
             <div id="authArea" class="hidden">
                 <div style="font-size:13px; color:#94a3b8; margin-bottom:5px;">लॉगिन यूज़र:</div>
                 <div style="font-weight: 600; color:#00ffcc;" id="userName">Loading...</div>
                 <div style="font-size: 12px; color: #64748b;" id="userEmail">Loading...</div>
-                <button id="logoutBtn" class="btn-secondary" style="padding: 6px; margin-top: 10px; font-size: 11px; max-width: 90px;">Logout</button>
+                <button id="logoutBtn" class="btn-secondary" style="padding: 6px; margin-top: 10px; font-size: 11px; max-width: 90px;"><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
             </div>
         </div>
 
         <div id="dashboardArea" class="hidden">
-            <div class="card">
-                <h2>आपका बैलेंस</h2>
-                <div class="coins-display">🪙 <span id="coinBalance">0</span></div>
+            
+            <div id="screen-home" class="app-screen active-screen">
+                <div class="card">
+                    <h2><i class="fa-solid fa-wallet"></i> आपका बैलेंस</h2>
+                    <div class="coins-display">🪙 <span id="coinBalance">0</span></div>
+                </div>
+
+                <div class="card">
+                    <h2><i class="fa-solid fa-cubes"></i> अर्निंग जोन (Offers & Surveys)</h2>
+                    <p style="color: #94a3b8; font-size: 13px; margin-bottom: 15px;">नीचे दिए गए टास्क पूरे करें और असीमित कॉइन्स कमाएं।</p>
+                    <button id="openOfferwallBtn"><i class="fa-solid fa-gift"></i> AdswedMedia Offerwall</button>
+                    <button id="openLootlabsBtn" style="background: linear-gradient(45deg, #a855f7, #6366f1); box-shadow: 0 4px 15px rgba(168, 85, 247, 0.4);"><i class="fa-solid fa-clipboard-list"></i> LootLabs Surveys</button>
+                </div>
             </div>
 
-            <div class="card">
-                <h2>💰 अर्निंग जोन (Offers & Surveys)</h2>
-                <button id="openOfferwallBtn">🎁 AdswedMedia Offerwall</button>
-                <button id="openLootlabsBtn" style="background: linear-gradient(45deg, #a855f7, #6366f1); box-shadow: 0 4px 15px rgba(168, 85, 247, 0.4);">📋 LootLabs Surveys</button>
+            <div id="screen-withdraw" class="app-screen">
+                <div class="card">
+                    <h2><i class="fa-solid fa-money-bill-transfer"></i> विद्ड्रॉवल जोन</h2>
+                    <p style="font-size: 12px; color: #94a3b8; margin-bottom: 12px;" id="withdrawLimitInfo">
+                        💡 पहला विद्ड्रॉवल: न्यूनतम ₹1 | अगला विद्ड्रॉवल: न्यूनतम ₹100
+                    </p>
+                    <input type="number" id="withdrawCoins" placeholder="कॉइन्स दर्ज करें" min="100">  
+                    <input type="text" id="upiId" placeholder="अपनी UPI ID दर्ज करें (e.g., abc@upi)">
+                    <button id="withdrawBtn"><i class="fa-solid fa-paper-plane"></i> Request Withdraw</button>
+                </div>
             </div>
 
-            <div class="card">
-                <h2>💸 विद्ड्रॉवल जोन</h2>
-                <p style="font-size: 12px; color: #94a3b8; margin-bottom: 12px;" id="withdrawLimitInfo">
-                    💡 पहला विद्ड्रॉवल: न्यूनतम ₹1 | अगला विद्ड्रॉवल: न्यूनतम ₹100
-                </p>
-                <input type="number" id="withdrawCoins" placeholder="कॉइन्स दर्ज करें"min="100">  
-                <input type="text" id="upiId" placeholder="अपनी UPI ID दर्ज करें (e.g., abc@upi)">
-                <button id="withdrawBtn">Request Withdraw</button>
+            <div id="screen-history" class="app-screen">
+                <div class="card">
+                    <h2><i class="fa-solid fa-clock-rotate-left"></i> विद्ड्रॉवल हिस्ट्री</h2>
+                    <div id="historyContent" class="history-container"></div>
+                </div>
             </div>
 
-            <div class="card">
-                <h2>📜 विद्ड्रॉवल हिस्ट्री</h2>
-                <div id="historyContent" class="history-container"></div>
-            </div>
         </div>
     </div>
+
+    <div id="navigationBar" class="bottom-nav hidden">
+        <div class="nav-item active" onclick="switchScreen('screen-home', this)">
+            <i class="fa-solid fa-house"></i>
+            <span>होम / टास्क</span>
+        </div>
+        <div class="nav-item" onclick="switchScreen('screen-withdraw', this)">
+            <i class="fa-solid fa-wallet"></i>
+            <span>विद्ड्रॉ</span>
+        </div>
+        <div class="nav-item" onclick="switchScreen('screen-history', this)">
+            <i class="fa-solid fa-list-check"></i>
+            <span>इतिहास</span>
+        </div>
+    </div>
+
+    <script>
+        function switchScreen(screenId, element) {
+            // सभी स्क्रीन्स को छुपाएं
+            document.querySelectorAll('.app-screen').forEach(screen => {
+                screen.classList.remove('active-screen');
+            });
+            // चुनी हुई स्क्रीन दिखाएं
+            document.getElementById(screenId).classList.add('active-screen');
+            
+            // नेविगेशन टैब एक्टिव स्टेट बदलें
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            element.classList.add('active');
+        }
+    </script>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
@@ -283,7 +373,6 @@
         const auth = getAuth();
         const db = getFirestore();
         
-        // Fix 2: setPersistence को सही से प्रॉमिस हैंडलिंग के साथ सेट करना
         setPersistence(auth, browserLocalPersistence)
             .then(() => console.log("Persistence Enabled"))
             .catch(err => console.error("Persistence Error:", err));
@@ -294,6 +383,7 @@
         const unauthArea = document.getElementById("unauthArea");
         const authArea = document.getElementById("authArea");
         const dashboardArea = document.getElementById("dashboardArea");
+        const navigationBar = document.getElementById("navigationBar"); // नेविगेशन बार को शो/हाइड करने के लिए
         const coinBalance = document.getElementById("coinBalance");
         const historyContent = document.getElementById("historyContent");
         const withdrawLimitInfo = document.getElementById("withdrawLimitInfo");
@@ -311,6 +401,7 @@
                 unauthArea.classList.add("hidden");
                 authArea.classList.remove("hidden");
                 dashboardArea.classList.remove("hidden");
+                navigationBar.classList.remove("hidden"); // लॉगिन होने पर नेविगेशन बार दिखेगा
 
                 document.getElementById("userName").innerText = user.displayName;
                 document.getElementById("userEmail").innerText = user.email;
@@ -321,35 +412,39 @@
                 currentUser = null;
                 authArea.classList.add("hidden");
                 dashboardArea.classList.add("hidden");
+                navigationBar.classList.add("hidden"); // लॉगआउट होने पर छुप जाएगा
                 unauthArea.classList.remove("hidden");
                 
                 if (unsubscribeCoins) unsubscribeCoins();
                 if (unsubscribeHistory) unsubscribeHistory();
             }
         });
+
         document.getElementById("loginBtn").addEventListener("click", () => {
             signInWithPopup(auth, provider).catch(err => alert("लॉगिन विफल: " + err.message));
         });
         document.getElementById("logoutBtn").addEventListener("click", () => {
             signOut(auth);
         });
+
         function setupRealtimeCoins(uid) {
-    const userDocRef = doc(db, "users", uid);
-    console.log("Reading UID =", uid);
-    unsubscribeCoins = onSnapshot(userDocRef, (docSnap) => {
-        console.log("Exists =", docSnap.exists());
-        if (docSnap.exists()) {
-            const data = docSnap.data();
-            console.log("Full Data =", data);
-            coinBalance.innerText = String(data.coins);
-        } else {
-            console.log("Document not found");
-            coinBalance.innerText = "0";
+            const userDocRef = doc(db, "users", uid);
+            console.log("Reading UID =", uid);
+            unsubscribeCoins = onSnapshot(userDocRef, (docSnap) => {
+                console.log("Exists =", docSnap.exists());
+                if (docSnap.exists()) {
+                    const data = docSnap.data();
+                    console.log("Full Data =", data);
+                    coinBalance.innerText = String(data.coins);
+                } else {
+                    console.log("Document not found");
+                    coinBalance.innerText = "0";
+                }
+            }, (error) => {
+                alert("Firestore Error: " + error.message);
+            });
         }
-    }, (error) => {
-        alert("Firestore Error: " + error.message);
-    });
-}
+
         async function checkWithdrawalHistoryLimit(uid) {
             const q = query(collection(db, "withdrawals"), where("uid", "==", uid));
             const querySnapshot = await getDocs(q);
@@ -363,7 +458,7 @@
                 withdrawCoinsInput.placeholder = "कॉइन्स दर्ज करें (Min 10000)";
             }
         }
-        // Fix 3: Composite Index Error को बाईपास करके जावास्क्रिप्ट सॉर्टिंग का उपयोग
+
         function setupRealtimeHistory(uid) {
             const historyQuery = query(
                 collection(db, "withdrawals"),
@@ -374,12 +469,10 @@
                     historyContent.innerHTML = `<div style="color: #64748b; text-align:center; padding:20px;">❌ कोई हिस्ट्री नहीं मिली</div>`;
                     return;
                 }
-                // सारे डॉक्यूमेंट्स एरे में लेना
                 let items = [];
                 querySnapshot.forEach((doc) => {
                     items.push(doc.data());
                 });
-                // जावास्क्रिप्ट से क्लाइंट साइड पर टाइमस्टैम्प के हिसाब से नया ऊपर (Desc) सॉर्ट करना
                 items.sort((a, b) => {
                     const timeA = a.timestamp ? a.timestamp.toMillis() : 0;
                     const timeB = b.timestamp ? b.timestamp.toMillis() : 0;
@@ -405,77 +498,15 @@
                 console.error("History Listener Error:", error);
             });
         }
+
         document.getElementById("openOfferwallBtn").addEventListener("click", () => {
             if (!currentUser) return;
             const publicKey = "qomMMngj"; 
             const offerwallUrl = `https://adswedmedia.com/offer/${publicKey}/${currentUser.uid}`;
             window.open(offerwallUrl, "_blank");
         });
+
         document.getElementById("openLootlabsBtn").addEventListener("click", () => {
             if (!currentUser) return;
             const baseLootlabsLink = "https://loot-link.com/s?GDfddiyb"; 
-            window.open(`${baseLootlabsLink}&unique_id=${currentUser.uid}`, "_blank");
-        });
-        document.getElementById("withdrawBtn").addEventListener("click", async () => {
-            if (!currentUser) return;
-            const coinsInput = document.getElementById("withdrawCoins");
-            const upiInput = document.getElementById("upiId");
-            const amountToWithdraw = parseInt(coinsInput.value);
-            const upiIdValue = upiInput.value.trim();
-            const minLimit = isFirstTimeUser ? 100 : 10000;
-            if (isNaN(amountToWithdraw) || amountToWithdraw < minLimit) {
-                alert(`कृपया न्यूनतम ${minLimit} या उससे अधिक कॉइन्स दर्ज करें।`);
-                return;
-            }
-            if (!upiIdValue || !upiIdValue.includes("@")) {
-                alert("कृपया एक वैध UPI ID दर्ज करें।");
-                return;
-            }
-            const userDocRef = doc(db, "users", currentUser.uid);
-            const targetWhatsAppNumber = "916375843097"; 
-
-            try {
-                await runTransaction(db, async (transaction) => {
-                    const userDoc = await transaction.get(userDocRef);
-                    if (!userDoc.exists()) throw "यूज़र डेटाबेस में मौजूद नहीं है!";
-
-                    const currentCoins = userDoc.data().coins || 0;
-                    if (currentCoins < amountToWithdraw) throw "आपके पास पर्याप्त कॉइन्स नहीं हैं!";
-
-                    transaction.update(userDocRef, { coins: currentCoins - amountToWithdraw });
-
-                    const withdrawalRef = doc(collection(db, "withdrawals"));
-                    transaction.set(withdrawalRef, {
-                        uid: currentUser.uid,
-                        email: currentUser.email,
-                        name: currentUser.displayName,
-                        coins: amountToWithdraw,
-                        upi: upiIdValue,
-                        status: "Pending",
-                        timestamp: serverTimestamp()
-                    });
-                });
-
-                const messageText = `⚡ *NEW WITHDRAW REQUEST* ⚡\n\n` +
-                                    `👤 *Name:* ${currentUser.displayName}\n` +
-                                    `📧 *Email:* ${currentUser.email}\n` +
-                                    `🆔 *UID:* ${currentUser.uid}\n` +
-                                    `🪙 *Coins Redeemed:* ${amountToWithdraw}\n` +
-                                    `💰 *Amount:* ₹${amountToWithdraw}\n` +
-                                    `💳 *UPI ID:* ${upiIdValue}\n\n` +
-                                    `👉 _कृपया भुगतान करने के बाद स्टेटस को सक्सेस करें।_`;
-
-                const whatsappUrl = `https://api.whatsapp.com/send?phone=${targetWhatsAppNumber}&text=${encodeURIComponent(messageText)}`;
-                
-                coinsInput.value = "";
-                upiInput.value = "";
-                alert("विद्ड्रॉ रिक्वेस्ट सुरक्षित रूप से दर्ज कर ली गई है! व्हाट्सएप पर सेंड बटन दबाएं।");
-                window.location.href = whatsappUrl;
-
-            } catch (error) {
-                alert("विद्ड्रॉ त्रुटि: " + error);
-            }
-        });
-    </script>
-</body>
-</html>
+            window.open(`
