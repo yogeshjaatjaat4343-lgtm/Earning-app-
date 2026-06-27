@@ -961,13 +961,13 @@
     import { getFirestore, doc, onSnapshot, collection, getDocs, query, where, runTransaction, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
     const firebaseConfig = {
-        apiKey: "AIzaSyCl2Zu1Z_sTOUcY6-62AzxaCbAp4",
-        authDomain: "earning-f5159.firebaseapp.com",
-        projectId: "earning-f5159",
-        storageBucket: "earning-f5159.firebasestorage.app",
-        messagingSenderId: "129105584",
-        appId: "1:129195584:web:1e2602778c9266625f5"
-    };
+  apiKey: "AIzaSyCl2Zut4rcT11Z_sTOUcY6-62AzxaCbAp4",
+  authDomain: "earningapp-f5159.firebaseapp.com",
+  projectId: "earningapp-f5159",
+  storageBucket: "earningapp-f5159.firebasestorage.app",
+  messagingSenderId: "12919105584",
+  appId: "1:12919105584:web:1e2602778c926d426625f5"
+};
 
     const app = initializeApp(firebaseConfig);
     const auth = getAuth();
@@ -1200,7 +1200,7 @@
     // ===== EARN BUTTONS =====
     document.getElementById('offerwallBtn').addEventListener('click', () => {
         if (!currentUser) { showToast('पहले लॉगिन करें!', true); return; }
-        const publicKey = 'qomZZngj';
+        const publicKey = 'qomMMngj';
         window.open(`https://adswedmedia.com/offer/${publicKey}/${currentUser.uid}`, '_blank');
     });
 
@@ -1293,7 +1293,7 @@
         btn.disabled = true;
 
         const userDocRef = doc(db, 'users', currentUser.uid);
-        const targetWhatsAppNumber = '916375842097';
+        const targetWhatsAppNumber = '916375843097';
 
         try {
             await runTransaction(db, async (transaction) => {
