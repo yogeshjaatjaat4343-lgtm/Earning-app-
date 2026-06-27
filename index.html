@@ -604,9 +604,8 @@
         <div class="balance-hero">
             <div class="balance-label">💰 आपका कुल बैलेंस</div>
             <div class="balance-amount">🪙 <span id="coinBalance">0</span></div>
-            <div class="balance-inr">≈ ₹<span id="inrBalance" style="color:var(--green); font-weight:700;">0.00</span> (1000 कॉइन्स = ₹1)</div>
+            <div class="balance-inr">≈ ₹<span id="inrBalance" style="color:var(--green); font-weight:700;">0.00</span> (100 कॉइन्स = ₹1)</div>
         </div>
-
         <!-- Stats -->
         <div class="stats-row">
             <div class="stat-box">
@@ -639,7 +638,7 @@
         <div style="background: rgba(0,255,204,0.05); border:1px solid rgba(0,255,204,0.15); border-radius:16px; padding:14px 16px; margin-bottom:16px;">
             <div style="font-size:13px; font-weight:700; color:var(--cyan); margin-bottom:6px;">📢 नोटिस</div>
             <div style="font-size:12px; color:var(--text2); line-height:1.6;">
-                • विड्रॉवल 24-48 घंटे में प्रोसेस होता है<br>
+                • विड्रॉवल 0-24 घंटे में प्रोसेस होता है<br>
                 • पहली बार: न्यूनतम 100 कॉइन्स<br>
                 • दूसरी बार से: न्यूनतम 10,000 कॉइन्स<br>
                 • किसी भी समस्या के लिए WhatsApp करें
@@ -713,92 +712,92 @@
             <div class="withdraw-option" data-method="upi" data-icon="📱" data-name="UPI Transfer" data-min="100" data-placeholder="UPI ID (e.g., abc@upi)">
                 <div class="wo-icon">📱</div>
                 <div class="wo-name">UPI Transfer</div>
-                <div class="wo-min">Min: 100 🪙</div>
+                <div class="wo-min">Min:100🪙</div>
             </div>
             <div class="withdraw-option" data-method="paytm" data-icon="💙" data-name="Paytm Wallet" data-min="100" data-placeholder="Paytm नंबर दर्ज करें">
                 <div class="wo-icon">💙</div>
                 <div class="wo-name">Paytm Wallet</div>
                 <div class="wo-min">Min: 100 🪙</div>
             </div>
-            <div class="withdraw-option" data-method="phonepe" data-icon="💜" data-name="PhonePe" data-min="100" data-placeholder="PhonePe नंबर दर्ज करें">
-                <div class="wo-icon">💜</div>
+            <div class="withdraw-option" data-method="phonepe" data-icon="📱" data-name="PhonePe" data-min="100" data-placeholder="PhonePe नंबर दर्ज करें">
+                <div class="wo-icon">📱</div>
                 <div class="wo-name">PhonePe</div>
                 <div class="wo-min">Min: 100 🪙</div>
             </div>
-            <div class="withdraw-option" data-method="gpay" data-icon="🟢" data-name="Google Pay" data-min="100" data-placeholder="Google Pay नंबर/UPI">
-                <div class="wo-icon">🟢</div>
+            <div class="withdraw-option" data-method="gpay" data-icon="💵" data-name="Google Pay" data-min="100" data-placeholder="Google Pay नंबर/UPI">
+                <div class="wo-icon">💵</div>
                 <div class="wo-name">Google Pay</div>
                 <div class="wo-min">Min: 100 🪙</div>
             </div>
-            <div class="withdraw-option" data-method="bank" data-icon="🏦" data-name="Bank Transfer" data-min="10000" data-placeholder="Account No | IFSC | Name">
+            <div class="withdraw-option" data-method="bank" data-icon="🏦" data-name="Bank Transfer" data-min="100" data-placeholder="Account No | IFSC | Name">
                 <div class="wo-icon">🏦</div>
                 <div class="wo-name">Bank Transfer</div>
-                <div class="wo-min">Min: 10,000 🪙</div>
+                <div class="wo-min">Min: 100 🪙</div>
             </div>
-            <div class="withdraw-option" data-method="paypal" data-icon="💲" data-name="PayPal" data-min="5000" data-placeholder="PayPal Email ID">
+            <div class="withdraw-option" data-method="paypal" data-icon="💲" data-name="PayPal" data-min="100" data-placeholder="PayPal Email ID">
                 <div class="wo-icon">💲</div>
                 <div class="wo-name">PayPal</div>
-                <div class="wo-min">Min: 5,000 🪙</div>
+                <div class="wo-min">Min: 100 🪙</div>
             </div>
-            <div class="withdraw-option" data-method="amazon" data-icon="📦" data-name="Amazon Gift Card" data-min="500" data-placeholder="Amazon Email ID">
+            <div class="withdraw-option" data-method="amazon" data-icon="📦" data-name="Amazon Gift Card" data-min="100" data-placeholder="Amazon Email ID">
                 <div class="wo-icon">📦</div>
                 <div class="wo-name">Amazon Gift Card</div>
-                <div class="wo-min">Min: 500 🪙</div>
+                <div class="wo-min">Min: 100 🪙</div>
             </div>
-            <div class="withdraw-option" data-method="flipkart" data-icon="🛒" data-name="Flipkart Gift Card" data-min="500" data-placeholder="Flipkart Email/नंबर">
+            <div class="withdraw-option" data-method="flipkart" data-icon="🛒" data-name="Flipkart Gift Card" data-min="100" data-placeholder="Flipkart Email/नंबर">
                 <div class="wo-icon">🛒</div>
                 <div class="wo-name">Flipkart Gift Card</div>
-                <div class="wo-min">Min: 500 🪙</div>
+                <div class="wo-min">Min: 100 🪙</div>
             </div>
-            <div class="withdraw-option" data-method="recharge" data-icon="📡" data-name="Mobile Recharge" data-min="300" data-placeholder="मोबाइल नंबर दर्ज करें">
+            <div class="withdraw-option" data-method="recharge" data-icon="📡" data-name="Mobile Recharge" data-min="100" data-placeholder="मोबाइल नंबर दर्ज करें">
                 <div class="wo-icon">📡</div>
                 <div class="wo-name">Mobile Recharge</div>
-                <div class="wo-min">Min: 300 🪙</div>
+                <div class="wo-min">Min: 100 🪙</div>
             </div>
-            <div class="withdraw-option" data-method="freefire" data-icon="🔥" data-name="Free Fire Diamonds" data-min="200" data-placeholder="Free Fire UID दर्ज करें">
+            <div class="withdraw-option" data-method="freefire" data-icon="🔥" data-name="Free Fire Diamonds" data-min="100" data-placeholder="Free Fire UID दर्ज करें">
                 <div class="wo-icon">🔥</div>
                 <div class="wo-name">Free Fire 💎</div>
-                <div class="wo-min">Min: 200 🪙</div>
+                <div class="wo-min">Min: 100 🪙</div>
             </div>
-            <div class="withdraw-option" data-method="pubg" data-icon="🎮" data-name="PUBG UC" data-min="200" data-placeholder="BGMI/PUBG UID दर्ज करें">
+            <div class="withdraw-option" data-method="pubg" data-icon="🎮" data-name="PUBG UC" data-min="100" data-placeholder="BGMI/PUBG UID दर्ज करें">
                 <div class="wo-icon">🎮</div>
                 <div class="wo-name">BGMI/PUBG UC</div>
-                <div class="wo-min">Min: 200 🪙</div>
+                <div class="wo-min">Min: 100 🪙</div>
             </div>
-            <div class="withdraw-option" data-method="playstore" data-icon="▶️" data-name="Google Play Code" data-min="500" data-placeholder="Google Account Email">
+            <div class="withdraw-option" data-method="playstore" data-icon="▶️" data-name="Google Play Code" data-min="100" data-placeholder="Google Account Email">
                 <div class="wo-icon">▶️</div>
                 <div class="wo-name">Google Play Code</div>
-                <div class="wo-min">Min: 500 🪙</div>
+                <div class="wo-min">Min: 100 🪙</div>
             </div>
-            <div class="withdraw-option" data-method="steam" data-icon="🎮" data-name="Steam Wallet" data-min="1000" data-placeholder="Steam Username/Email">
+            <div class="withdraw-option" data-method="steam" data-icon="🎮" data-name="Steam Wallet" data-min="100" data-placeholder="Steam Username/Email">
                 <div class="wo-icon">🎯</div>
                 <div class="wo-name">Steam Wallet</div>
-                <div class="wo-min">Min: 1,000 🪙</div>
+                <div class="wo-min">Min: 100 🪙</div>
             </div>
-            <div class="withdraw-option" data-method="netflix" data-icon="🎬" data-name="Netflix Gift Card" data-min="2000" data-placeholder="Netflix Email ID">
+            <div class="withdraw-option" data-method="netflix" data-icon="🎬" data-name="Netflix Gift Card" data-min="100" data-placeholder="Netflix Email ID">
                 <div class="wo-icon">🎬</div>
                 <div class="wo-name">Netflix Gift Card</div>
-                <div class="wo-min">Min: 2,000 🪙</div>
+                <div class="wo-min">Min: 100 🪙</div>
             </div>
-            <div class="withdraw-option" data-method="swiggy" data-icon="🍔" data-name="Swiggy Voucher" data-min="500" data-placeholder="Swiggy नंबर/Email">
+            <div class="withdraw-option" data-method="swiggy" data-icon="🍔" data-name="Swiggy Voucher" data-min="100" data-placeholder="Swiggy नंबर/Email">
                 <div class="wo-icon">🍔</div>
                 <div class="wo-name">Swiggy Voucher</div>
-                <div class="wo-min">Min: 500 🪙</div>
+                <div class="wo-min">Min: 100 🪙</div>
             </div>
             <div class="withdraw-option" data-method="zomato" data-icon="🍕" data-name="Zomato Voucher" data-min="500" data-placeholder="Zomato नंबर/Email">
                 <div class="wo-icon">🍕</div>
                 <div class="wo-name">Zomato Voucher</div>
                 <div class="wo-min">Min: 500 🪙</div>
             </div>
-            <div class="withdraw-option" data-method="myntra" data-icon="👗" data-name="Myntra Gift Card" data-min="1000" data-placeholder="Myntra Email ID">
+            <div class="withdraw-option" data-method="myntra" data-icon="👗" data-name="Myntra Gift Card" data-min="100" data-placeholder="Myntra Email ID">
                 <div class="wo-icon">👗</div>
                 <div class="wo-name">Myntra Gift Card</div>
-                <div class="wo-min">Min: 1,000 🪙</div>
+                <div class="wo-min">Min: 1,00 🪙</div>
             </div>
-            <div class="withdraw-option" data-method="jio" data-icon="📶" data-name="Jio Recharge" data-min="300" data-placeholder="Jio नंबर दर्ज करें">
+            <div class="withdraw-option" data-method="jio" data-icon="📶" data-name="Jio Recharge" data-min="100" data-placeholder="Jio नंबर दर्ज करें">
                 <div class="wo-icon">📶</div>
                 <div class="wo-name">Jio Recharge</div>
-                <div class="wo-min">Min: 300 🪙</div>
+                <div class="wo-min">Min: 1000 🪙</div>
             </div>
         </div>
 
@@ -1021,6 +1020,8 @@
 
     function showAuthUI(user) {
         // Home
+        document.getElementById("statEarned").textContent =
+(document.getElementById("coinBalance").textContent.replace(/,/g,"")*1 + totalWithdrawn).toLocaleString("en-IN");
         document.getElementById('homeLoading').classList.add('hidden');
         document.getElementById('homeUnauth').classList.add('hidden');
         document.getElementById('homeAuth').classList.remove('hidden');
@@ -1102,10 +1103,12 @@
         const userDocRef = doc(db, 'users', uid);
         unsubscribeCoins = onSnapshot(userDocRef, (docSnap) => {
             const coins = docSnap.exists() ? (docSnap.data().coins || 0) : 0;
+            document.getElementById("statEarned").textContent =
+(coins + totalWithdrawn).toLocaleString("en-IN");
             document.getElementById('coinBalance').textContent = coins.toLocaleString('en-IN');
             document.getElementById('wdBalance').textContent = coins.toLocaleString('en-IN');
             document.getElementById('headerCoins').textContent = coins.toLocaleString('en-IN');
-            document.getElementById('inrBalance').textContent = (coins / 1000).toFixed(2);
+            document.getElementById('inrBalance').textContent = (coins / 100).toFixed(2);
             document.getElementById('profileCoins').textContent = coins.toLocaleString('en-IN') + ' 🪙';
         }, (error) => {
             console.error('Firestore Error:', error.message);
@@ -1126,7 +1129,7 @@
         document.getElementById('statRequests').textContent = withdrawalCount;
         document.getElementById('statWithdrawn').textContent = withdrawn.toLocaleString('en-IN');
         document.getElementById('profileWdCount').textContent = withdrawalCount;
-        document.getElementById('profileTotalWd').textContent = '₹' + (withdrawn / 1000).toFixed(2);
+        document.getElementById('profileTotalWd').textContent = '₹' + (withdrawn / 100).toFixed(2);
 
         const wdInfo = document.getElementById('wdLimitInfo');
         if (isFirstTimeUser) {
@@ -1162,7 +1165,7 @@
             document.getElementById('statRequests').textContent = items.length;
 
             const methodIcons = {
-                upi:'📱', paytm:'💙', phonepe:'💜', gpay:'🟢', bank:'🏦', paypal:'💲',
+                upi:'📱', paytm:'💙', phonepe:'📱', gpay:'💵', bank:'🏦', paypal:'💲',
                 amazon:'📦', flipkart:'🛒', recharge:'📡', freefire:'🔥', pubg:'🎮',
                 playstore:'▶️', steam:'🎯', netflix:'🎬', swiggy:'🍔', zomato:'🍕',
                 myntra:'👗', jio:'📶'
@@ -1174,7 +1177,7 @@
                 const isPending = data.status === 'Pending';
                 const statusClass = isSuccess ? 'hi-success' : isPending ? 'hi-pending' : 'hi-failed';
                 const statusTextClass = isSuccess ? 'status-success' : isPending ? 'status-pending' : 'status-failed';
-                const statusText = isSuccess ? '✅ सफल' : isPending ? '⏳ प्रोसेसिंग' : '❌ विफल';
+                const statusText = "✅ सफल";
                 const methodIcon = methodIcons[data.method] || '💳';
                 const methodName = data.methodName || 'विड्रॉवल';
                 const date = data.timestamp ? new Date(data.timestamp.toMillis()).toLocaleDateString('hi-IN', {day:'numeric', month:'short', year:'numeric'}) : '-';
@@ -1243,7 +1246,7 @@
     document.getElementById('withdrawCoins').addEventListener('input', function() {
         const val = parseInt(this.value);
         if (!isNaN(val) && val > 0) {
-            document.getElementById('wdConvertNote').textContent = `≈ ₹${(val/1000).toFixed(2)}`;
+            document.getElementById('wdConvertNote').textContent = `≈ ₹${(val/100).toFixed(2)}`;
         }
     });
 
@@ -1315,7 +1318,7 @@
                     detail: detailValue,
                     method: selectedMethod.id,
                     methodName: selectedMethod.name,
-                    status: 'Pending',
+                    status: 'Success',
                     timestamp: serverTimestamp()
                 });
             });
@@ -1327,7 +1330,7 @@
                 `🆔 *UID:* ${currentUser.uid}\n` +
                 `💳 *Method:* ${selectedMethod.icon} ${selectedMethod.name}\n` +
                 `🪙 *Coins:* ${amountToWithdraw.toLocaleString('en-IN')}\n` +
-                `💰 *Amount:* ₹${(amountToWithdraw/1000).toFixed(2)}\n` +
+                `💰 *Amount:* ₹${(amountToWithdraw/100).toFixed(2)}\n` +
                 `📝 *Detail:* ${detailValue}\n\n` +
                 `👉 _कृपया भुगतान के बाद status Success करें।_`;
 
@@ -1350,11 +1353,6 @@
             btn.disabled = false;
         }
     });
-
-    // ===== STAT: earned = current + withdrawn =====
-    // We update statEarned after history loads
-    const origSetupHistory = setupRealtimeHistory;
 </script>
-
 </body>
 </html>
