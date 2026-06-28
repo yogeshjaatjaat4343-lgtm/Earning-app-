@@ -22,10 +22,26 @@ app.get("/postback", async (req, res) => {
   try {
     console.log("Postback Signal Received:", req.query);
 
-    const uid = req.query.uid || req.query.subId || req.query.userId;
+    const uid =
+    req.query.uid ||
+    req.query.userID ||
+    req.query.subId ||
+    req.query.userId;
     console.log("FINAL UID:", uid);
 
-    let incomingReward = req.query.reward || req.query.amount || req.query.payout;
+    let incomingReward =
+    req.query.reward ||
+    req.query.amount ||
+    req.query.payout ||
+    req.query.currencyAmount ||
+    req.query.revenue;
+    const transactionId =
+    req.query.transactionID ||
+    req.query.transaction_id ||
+    req.query.click_id ||
+    "";
+
+const type = req.query.type || "credit";
     console.log("FINAL REWARD:", incomingReward);
 
     if (Array.isArray(incomingReward)) {
@@ -62,12 +78,18 @@ app.get("/postback", async (req, res) => {
 
     console.log(`🪙 User ID: ${uid} के लिए ${coins} कॉइन्स प्रोसेस हो रहे हैं...`);
 
-    await db.collection("users").doc(uid).set(
-      {
-        coins: admin.firestore.FieldValue.increment(coins)
-      },
-      { merge: true }
-    );
+    let finalCoins = coins;
+
+if (type === "chargeback") {
+    finalCoins = -coins;
+}
+
+await db.collection("users").doc(uid).set(
+{
+    coins: admin.firestore.FieldValue.increment(finalCoins)
+},
+{ merge: true }
+);
 
     console.log(`✅ Success: Coins added successfully to ${uid}`);
     res.send("Coins Added");
