@@ -22,11 +22,20 @@ app.get("/postback", async (req, res) => {
   try {
     console.log("Postback Signal Received:", req.query);
 
-    const uid =
-    req.query.uid ||
-    req.query.userID ||
-    req.query.subId ||
-    req.query.userId;
+    const externalUID = req.query.uid;
+
+if (!externalUID) {
+  console.log("❌ Missing external UID");
+  return res.status(400).send("Missing UID");
+}
+  const mapDoc = await db.collection("user_map").doc(externalUID).get();
+
+if (!mapDoc.exists) {
+  console.log("❌ No mapping found:", externalUID);
+  return res.status(400).send("No mapping");
+}
+
+const firebaseUID = mapDoc.data().firebaseUID;
     console.log("FINAL UID:", uid);
 
     let incomingReward =
@@ -84,7 +93,7 @@ if (type === "chargeback") {
     finalCoins = -coins;
 }
 
-await db.collection("users").doc(uid).set(
+await db.collection("users").doc(firebaseUID).set(
 {
     coins: admin.firestore.FieldValue.increment(finalCoins)
 },
