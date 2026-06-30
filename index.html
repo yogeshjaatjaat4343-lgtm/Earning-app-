@@ -10175,6 +10175,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
 console.log('🔊 Sound Effects — Howler.js Ready!');
 console.log('🎵 Available Sounds: dice, win, lose, coin, slap, levelup, notification, achievement, celebration, click');
+// ==============================================================
+// SERVICE WORKER REGISTER
+// ==============================================================
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/sw.js')
+        .then(reg => {
+            console.log('✅ Service Worker registered:', reg);
+        })
+        .catch(err => {
+            console.warn('❌ Service Worker registration failed:', err);
+            // SW fail होने पर भी ऐप चलेगा
+        });
+}
 </script>
 </body>
 </html>
